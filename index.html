@@ -1365,8 +1365,9 @@
             `;
         }
         
-        // Fonctions de contrôle
+        // Fonctions de contrôle - correction des erreurs
         function setScreen(screen) {
+            console.log('Changement écran vers:', screen);
             currentScreen = screen;
             renderScreen();
         }
@@ -1384,20 +1385,28 @@
         function setSailTrim(trim) {
             if (!raceState.isAutoPilot) {
                 raceState.sailTrim = parseInt(trim);
-                renderScreen();
+                updateRaceDisplay();
             }
         }
         
         function toggleAutoPilot() {
             raceState.isAutoPilot = !raceState.isAutoPilot;
-            renderScreen();
+            updateRaceDisplay();
         }
         
         function startChampionshipWithDuration(championshipId) {
-            const championship = availableChampionships.find(c => c.id === championshipId);
-            const durationSelect = document.getElementById(`duration-${championshipId}`);
-            const duration = parseInt(durationSelect.value);
-            startChampionship(championship, duration);
+            try {
+                const championship = availableChampionships.find(c => c.id === championshipId);
+                const durationSelect = document.getElementById('duration-' + championshipId);
+                if (durationSelect) {
+                    const duration = parseInt(durationSelect.value);
+                    startChampionship(championship, duration);
+                } else {
+                    console.error('Element duration select non trouvé:', championshipId);
+                }
+            } catch (error) {
+                console.error('Erreur startChampionshipWithDuration:', error);
+            }
         }
         
         // Correction: fonction manquante pour l'écran de course
@@ -1407,9 +1416,18 @@
             }
         }
         
+        // Fonction pour debugging
+        function debugGame() {
+            console.log('GameData:', gameData);
+            console.log('ChampionshipState:', championshipState);
+            console.log('RaceState:', raceState);
+            console.log('CurrentScreen:', currentScreen);
+        }
+        
         // Rendu principal
         function renderScreen() {
             const app = document.getElementById('app');
+            if (!app) return;
             
             let content = '';
             switch(currentScreen) {
@@ -1441,13 +1459,14 @@
             app.innerHTML = content;
             
             // Initialiser les icônes Lucide
-            if (typeof lucide !== 'undefined') {
+            if (typeof lucide !== 'undefined' && lucide.createIcons) {
                 lucide.createIcons();
             }
         }
         
         // Initialisation au chargement de la page
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('Initialisation du jeu...');
             initGame();
         });
     </script>
