@@ -1015,21 +1015,9 @@
                                 
                                 ${allRacers.map((racer, index) => {
                                     const leftPosition = Math.min((racer.progress / 100) * 90, 90);
-                                    return `
-                                        <div class="racer ${racer.isPlayer ? 'animate-bounce' : ''}" 
-                                             style="left: ${leftPosition}%; top: ${8 + index * 14}px;">
-                                            <div class="flex items-center gap-1">
-                                                <div style="font-size: 1.5rem;">
-                                                    ${racer.isPlayer ? '⛵' : '🚤'}
-                                                </div>
-                                                <span style="font-size: 12px; font-weight: bold; white-space: nowrap; ${
-                                                    racer.isPlayer ? 'color: #1e40af; background: #bfdbfe; padding: 2px 4px; border-radius: 4px;' : 'color: #374151;'
-                                                }">
-                                                    ${racer.isPlayer ? 'VOUS' : (championshipState.isActive ? racer.name : `C${racer.id + 1}`)}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    `;
+                                    const racerStyle = racer.isPlayer ? 'color: #1e40af; background: #bfdbfe; padding: 2px 4px; border-radius: 4px;' : 'color: #374151;';
+                                    const racerName = racer.isPlayer ? 'VOUS' : (championshipState.isActive ? racer.name : 'C' + (racer.id + 1));
+                                    return '<div class="racer ' + (racer.isPlayer ? 'animate-bounce' : '') + '" style="left: ' + leftPosition + '%; top: ' + (8 + index * 14) + 'px;"><div class="flex items-center gap-1"><div style="font-size: 1.5rem;">' + (racer.isPlayer ? '⛵' : '🚤') + '</div><span style="font-size: 12px; font-weight: bold; white-space: nowrap; ' + racerStyle + '">' + racerName + '</span></div></div>';
                                 }).join('')}
                                 
                                 <div class="progress-indicators">
@@ -1045,47 +1033,23 @@
                         <div style="background: #f3f4f6; padding: 16px; border-radius: 8px;">
                             <h3 class="font-bold mb-3">Classement</h3>
                             <div class="space-y-2">
-                                ${allRacers.map((racer, index) => `
-                                    <div class="flex justify-between items-center p-2 rounded" 
-                                         style="background: ${racer.isPlayer ? '#bfdbfe' : 'white'}; ${racer.isPlayer ? 'font-weight: bold;' : ''}">
-                                        <span class="flex items-center gap-2">
-                                            <span class="flex items-center justify-center font-bold text-sm position-${index === 0 ? '1' : index === 1 ? '2' : index === 2 ? '3' : 'other'}" 
-                                                  style="width: 24px; height: 24px; border-radius: 50%;">
-                                                ${index + 1}
-                                            </span>
-                                            <span style="font-size: 1.125rem;">${racer.isPlayer ? '⛵' : '🚤'}</span>
-                                            ${racer.name || `Concurrent ${racer.id + 1}`}
-                                        </span>
-                                        <span class="font-bold">${Math.round(racer.progress)}%</span>
-                                    </div>
-                                `).join('')}
+                                ${allRacers.map((racer, index) => {
+                                    const positionClass = index === 0 ? 'position-1' : index === 1 ? 'position-2' : index === 2 ? 'position-3' : 'position-other';
+                                    const bgColor = racer.isPlayer ? '#bfdbfe' : 'white';
+                                    const fontWeight = racer.isPlayer ? 'font-weight: bold;' : '';
+                                    const racerEmoji = racer.isPlayer ? '⛵' : '🚤';
+                                    const racerName = racer.name || ('Concurrent ' + (racer.id + 1));
+                                    return '<div class="flex justify-between items-center p-2 rounded" style="background: ' + bgColor + '; ' + fontWeight + '"><span class="flex items-center gap-2"><span class="flex items-center justify-center font-bold text-sm ' + positionClass + '" style="width: 24px; height: 24px; border-radius: 50%;">' + (index + 1) + '</span><span style="font-size: 1.125rem;">' + racerEmoji + '</span>' + racerName + '</span><span class="font-bold">' + Math.round(racer.progress) + '%</span></div>';
+                                }).join('')}
                             </div>
                         </div>
                     </div>
                     
-                    ${!raceState.isRacing ? `
-                        <div class="text-center">
-                            ${championshipState.isActive && championshipState.currentRace <= 20 ? `
-                                <div class="championship-active mb-4">
-                                    <h3 class="font-bold text-lg" style="color: #92400e;">
-                                        Championnat en cours: ${championshipState.championshipData?.name}
-                                    </h3>
-                                    <p style="color: #a16207;">
-                                        Course ${championshipState.currentRace}/20 - Points: ${championshipState.playerPoints} - 
-                                        Durée: ${championshipState.raceDuration >= 3600 ? `${Math.floor(championshipState.raceDuration / 3600)}h` : `${Math.floor(championshipState.raceDuration / 60)} min`}
-                                    </p>
-                                    <button class="btn btn-yellow mt-4" 
-                                            onclick="startChampionshipRace('${championshipState.level}', ${JSON.stringify(championshipState.standings).replace(/"/g, '&quot;')}, ${championshipState.raceDuration})">
-                                        Prochaine Course (${championshipState.raceDuration >= 3600 ? `${Math.floor(championshipState.raceDuration / 3600)}h` : `${Math.floor(championshipState.raceDuration / 60)} min`})
-                                    </button>
-                                </div>
-                            ` : ''}
-                            
-                            <button class="btn btn-blue" style="padding: 12px 24px;" onclick="setScreen('menu')">
-                                Retour au Menu
-                            </button>
-                        </div>
-                    ` : ''}
+                    ${!raceState.isRacing ? (
+                        championshipState.isActive && championshipState.currentRace <= 20 ? 
+                        '<div class="text-center"><div class="championship-active mb-4"><h3 class="font-bold text-lg" style="color: #92400e;">Championnat en cours: ' + (championshipState.championshipData?.name || '') + '</h3><p style="color: #a16207;">Course ' + championshipState.currentRace + '/20 - Points: ' + championshipState.playerPoints + ' - Durée: ' + (championshipState.raceDuration >= 3600 ? Math.floor(championshipState.raceDuration / 3600) + 'h' : Math.floor(championshipState.raceDuration / 60) + ' min') + '</p><button class="btn btn-yellow mt-4" onclick="startChampionshipRace(\'' + championshipState.level + '\', ' + JSON.stringify(championshipState.standings).replace(/"/g, '&quot;') + ', ' + championshipState.raceDuration + ')">Prochaine Course (' + (championshipState.raceDuration >= 3600 ? Math.floor(championshipState.raceDuration / 3600) + 'h' : Math.floor(championshipState.raceDuration / 60) + ' min') + ')</button></div><button class="btn btn-blue" style="padding: 12px 24px;" onclick="setScreen(\'menu\')">Retour au Menu</button></div>' :
+                        '<div class="text-center"><button class="btn btn-blue" style="padding: 12px 24px;" onclick="setScreen(\'menu\')">Retour au Menu</button></div>'
+                    ) : ''}
                 </div>
             `;
         }
@@ -1103,47 +1067,14 @@
                     <div class="card">
                         <h2 class="text-3xl font-bold mb-6 text-center" style="color: #92400e;">Championnats</h2>
                         
-                        ${championshipState.isActive ? `
-                            <div class="championship-active">
-                                <h3 class="font-bold text-lg mb-2" style="color: #92400e;">
-                                    Championnat en cours: ${championshipState.championshipData?.name}
-                                </h3>
-                                <div class="grid grid-3 gap-4 text-center">
-                                    <div class="stat-card stat-yellow">
-                                        <div class="font-bold">Course Actuelle</div>
-                                        <div class="text-2xl font-bold">${championshipState.currentRace}/20</div>
-                                    </div>
-                                    <div class="stat-card stat-yellow">
-                                        <div class="font-bold">Vos Points</div>
-                                        <div class="text-2xl font-bold">${championshipState.playerPoints}</div>
-                                    </div>
-                                    <div class="stat-card stat-yellow">
-                                        <div class="font-bold">Position Actuelle</div>
-                                        <div class="text-2xl font-bold">
-                                            ${[{ name: "Vous", totalPoints: championshipState.playerPoints, isPlayer: true }, ...championshipState.standings]
-                                                .sort((a, b) => b.totalPoints - a.totalPoints)
-                                                .findIndex(s => s.isPlayer) + 1}
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="mt-4">
-                                    <h4 class="font-bold mb-2">Classement Actuel:</h4>
-                                    <div class="space-y-1">
-                                        ${[{ name: "Vous", totalPoints: championshipState.playerPoints, isPlayer: true }, ...championshipState.standings]
-                                            .sort((a, b) => b.totalPoints - a.totalPoints)
-                                            .slice(0, 5)
-                                            .map((pilot, index) => `
-                                                <div class="flex justify-between p-2 rounded" 
-                                                     style="background: ${pilot.isPlayer ? '#bfdbfe' : '#f3f4f6'}; ${pilot.isPlayer ? 'font-weight: bold;' : ''}">
-                                                    <span>${index + 1}. ${pilot.name}</span>
-                                                    <span>${pilot.totalPoints} pts</span>
-                                                </div>
-                                            `).join('')}
-                                    </div>
-                                </div>
-                            </div>
-                        ` : ''}
+                        ${championshipState.isActive ? (
+                            '<div class="championship-active"><h3 class="font-bold text-lg mb-2" style="color: #92400e;">Championnat en cours: ' + (championshipState.championshipData?.name || '') + '</h3><div class="grid grid-3 gap-4 text-center"><div class="stat-card stat-yellow"><div class="font-bold">Course Actuelle</div><div class="text-2xl font-bold">' + championshipState.currentRace + '/20</div></div><div class="stat-card stat-yellow"><div class="font-bold">Vos Points</div><div class="text-2xl font-bold">' + championshipState.playerPoints + '</div></div><div class="stat-card stat-yellow"><div class="font-bold">Position Actuelle</div><div class="text-2xl font-bold">' + ([{ name: "Vous", totalPoints: championshipState.playerPoints, isPlayer: true }, ...championshipState.standings].sort((a, b) => b.totalPoints - a.totalPoints).findIndex(s => s.isPlayer) + 1) + '</div></div></div><div class="mt-4"><h4 class="font-bold mb-2">Classement Actuel:</h4><div class="space-y-1">' + 
+                            [{ name: "Vous", totalPoints: championshipState.playerPoints, isPlayer: true }, ...championshipState.standings]
+                                .sort((a, b) => b.totalPoints - a.totalPoints)
+                                .slice(0, 5)
+                                .map((pilot, index) => '<div class="flex justify-between p-2 rounded" style="background: ' + (pilot.isPlayer ? '#bfdbfe' : '#f3f4f6') + '; ' + (pilot.isPlayer ? 'font-weight: bold;' : '') + '"><span>' + (index + 1) + '. ' + pilot.name + '</span><span>' + pilot.totalPoints + ' pts</span></div>')
+                                .join('') + '</div></div></div>'
+                        ) : ''}
                         
                         <div class="space-y-4">
                             ${availableChampionships.map(championship => {
