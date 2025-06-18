@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+        }<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -44,36 +45,20 @@
             margin: 5px;
         }
         
-        .btn:hover {
-            background: #2563eb;
-        }
-        
-        .btn:disabled {
-            background: #9ca3af;
-            cursor: not-allowed;
-        }
-        
+        .btn:hover { background: #2563eb; }
+        .btn:disabled { background: #9ca3af; cursor: not-allowed; }
         .btn-green { background: #10b981; }
         .btn-green:hover { background: #059669; }
-        
         .btn-yellow { background: #f59e0b; }
         .btn-yellow:hover { background: #d97706; }
-        
         .btn-red { background: #ef4444; }
         .btn-red:hover { background: #dc2626; }
-        
         .btn-purple { background: #8b5cf6; }
         .btn-purple:hover { background: #7c3aed; }
-        
         .btn-orange { background: #f97316; }
         .btn-orange:hover { background: #ea580c; }
         
-        .grid {
-            display: grid;
-            gap: 16px;
-        }
-        
-        .grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid { display: grid; gap: 16px; }
         .grid-3 { grid-template-columns: repeat(3, 1fr); }
         .grid-4 { grid-template-columns: repeat(4, 1fr); }
         .grid-5 { grid-template-columns: repeat(5, 1fr); }
@@ -99,23 +84,9 @@
             text-align: center;
         }
         
-        .stat-green {
-            background: #ecfdf5;
-            border-color: #10b981;
-            color: #065f46;
-        }
-        
-        .stat-yellow {
-            background: #fefbeb;
-            border-color: #f59e0b;
-            color: #92400e;
-        }
-        
-        .stat-purple {
-            background: #f5f3ff;
-            border-color: #8b5cf6;
-            color: #581c87;
-        }
+        .stat-green { background: #ecfdf5; border-color: #10b981; color: #065f46; }
+        .stat-yellow { background: #fefbeb; border-color: #f59e0b; color: #92400e; }
+        .stat-purple { background: #f5f3ff; border-color: #8b5cf6; color: #581c87; }
         
         .race-track {
             background: linear-gradient(90deg, #bfdbfe 0%, #3b82f6 100%);
@@ -134,9 +105,7 @@
             transform: translateY(-50%);
         }
         
-        .boat-player {
-            animation: bounce 2s infinite;
-        }
+        .boat-player { animation: bounce 2s infinite; }
         
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% { transform: translateY(-50%); }
@@ -214,6 +183,19 @@
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.8; }
+        }
+        
+        .event-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: #1f2937;
+            color: white;
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            max-width: 300px;
         }
     </style>
 </head>
@@ -293,10 +275,17 @@
                     <input type="range" id="duration-slider" class="slider" min="1" max="10080" value="5" onchange="updateDuration()">
                     <div class="grid grid-5 text-center text-sm mt-2">
                         <span>1 min</span>
-                        <span>1 heure</span>
-                        <span>12 heures</span>
-                        <span>3 jours</span>
+                        <span>24h</span>
+                        <span>48h</span>
+                        <span>5 jours</span>
                         <span>7 jours</span>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <div class="stat-card stat-yellow text-center">
+                        <div class="font-bold">Frais d'inscription</div>
+                        <div class="text-xl" id="entry-fee">1,500€</div>
                     </div>
                 </div>
                 
@@ -335,13 +324,49 @@
                     </div>
                 </div>
                 
+                <!-- Événement en cours -->
+                <div id="current-event" class="hidden" style="background: #1f2937; color: white; padding: 12px; border-radius: 8px; margin-bottom: 16px; text-align: center;">
+                    <div class="font-bold" id="event-title">🌊 Événement en cours</div>
+                    <div id="event-description">Description de l'événement</div>
+                    <div style="font-size: 0.875rem; margin-top: 8px;">Temps restant: <span id="event-timer">30s</span></div>
+                </div>
+                
                 <!-- Info championnat -->
                 <div id="championship-info" class="championship-info hidden">
                     <strong>Championnat en cours</strong> - Course <span id="champ-race-num">1</span>/20 - 
                     Points: <span id="champ-points">0</span>
                 </div>
                 
-                <!-- Contrôle des voiles -->
+                <!-- Condition du bateau -->
+                <div class="mb-6">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <span class="font-bold">Condition du Bateau: <span id="boat-condition">100</span>%</span>
+                        <span id="repair-status" class="optimum">PARFAIT ÉTAT</span>
+                    </div>
+                    <div style="width: 100%; background: #e5e7eb; border-radius: 4px; height: 8px;">
+                        <div id="condition-bar" style="width: 100%; background: #10b981; height: 100%; border-radius: 4px; transition: all 0.3s;"></div>
+                    </div>
+                </div>
+                
+                <!-- Réparation (affiché seulement si nécessaire) -->
+                <div id="repair-section" class="mb-6 hidden">
+                    <div style="background: #fef2f2; border: 2px solid #f87171; border-radius: 8px; padding: 16px;">
+                        <div class="font-bold" style="color: #dc2626;">🔧 RÉPARATION NÉCESSAIRE</div>
+                        <div style="margin: 8px 0;">Cliquez rapidement pour réparer !</div>
+                        <button id="repair-btn" class="btn btn-red" onclick="performRepair()" style="width: 100%; margin-top: 8px;">
+                            RÉPARER (Progrès: <span id="repair-progress">0</span>/<span id="repair-total">100</span>)
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Checkpoints -->
+                <div class="mb-6">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="font-bold">Checkpoints</span>
+                        <span id="checkpoint-status">0/3 passés</span>
+                    </div>
+                    <div id="checkpoints-display" class="mt-2"></div>
+                </div>
                 <div class="mb-6">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                         <span class="font-bold">Réglage des Voiles: <span id="sail-value">50</span>%</span>
@@ -364,8 +389,6 @@
                     <div class="finish-line"></div>
                     <div style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); 
                                 color: white; font-weight: bold; font-size: 12px;">ARRIVÉE</div>
-                    
-                    <!-- Les bateaux seront ajoutés dynamiquement ici -->
                 </div>
                 
                 <!-- Classement -->
@@ -402,9 +425,7 @@
                 </div>
                 
                 <!-- Liste des championnats -->
-                <div id="championships-list">
-                    <!-- Les championnats seront ajoutés dynamiquement -->
-                </div>
+                <div id="championships-list"></div>
             </div>
         </div>
         
@@ -415,17 +436,14 @@
                 <h2 class="text-2xl font-bold text-center mb-4">🛒 Boutique</h2>
                 <p class="text-center mb-6">Argent disponible: <span id="shop-money">25,000€</span></p>
                 
-                <!-- Améliorations du bateau -->
                 <h3 class="font-bold mb-4">Améliorations du Bateau</h3>
-                <div id="boat-upgrades">
-                    <!-- Les améliorations seront ajoutées dynamiquement -->
-                </div>
+                <div id="boat-upgrades"></div>
                 
-                <!-- Pilote automatique -->
                 <h3 class="font-bold mb-4 mt-6">🤖 Pilote Automatique</h3>
-                <div id="autopilot-upgrades">
-                    <!-- Les améliorations du pilote automatique seront ajoutées dynamiquement -->
-                </div>
+                <div id="autopilot-upgrades"></div>
+                
+                <h3 class="font-bold mb-4 mt-6">🏢 Multi-Race Manager</h3>
+                <div id="manager-upgrades"></div>
             </div>
         </div>
         
@@ -434,9 +452,7 @@
             <button class="btn" onclick="showScreen('menu')">← Retour</button>
             <div class="card">
                 <h2 class="text-2xl font-bold text-center mb-4">🤝 Sponsors</h2>
-                <div id="sponsors-list">
-                    <!-- Les sponsors seront ajoutés dynamiquement -->
-                </div>
+                <div id="sponsors-list"></div>
             </div>
         </div>
         
@@ -460,25 +476,19 @@
     </div>
 
     <script>
-        // Variables globales du jeu
+        // Variables globales
         let gameData = {
             money: 25000,
             xp: 0,
             level: 1,
-            boat: {
-                speed: 10,
-                handling: 10,
-                endurance: 10
-            },
-            autopilot: {
-                level: 1,
-                name: "Basic",
-                efficiency: 0.8
-            },
+            boat: { speed: 10, handling: 10, endurance: 10 },
+            autopilot: { level: 1, name: "Basic", efficiency: 0.8 },
+            multiRaceManager: { level: 0, maxConcurrentRaces: 1 },
             sponsors: [],
             raceHistory: [],
             championships: [],
-            unlockedChampionships: ['amateur']
+            unlockedChampionships: ['amateur'],
+            activeRaces: []
         };
         
         let raceState = {
@@ -491,7 +501,17 @@
             timeLeft: 0,
             weather: 'normal',
             difficulty: 'debutant',
-            duration: 5 // en minutes
+            duration: 5,
+            currentEvent: null,
+            eventTimeLeft: 0,
+            // Nouvelles fonctionnalités
+            boatCondition: 100, // 0-100, affecte la vitesse
+            needsRepair: false,
+            repairProgress: 0,
+            repairNeeded: 100, // Progression nécessaire pour réparer
+            checkpoints: [],
+            currentCheckpoint: 0,
+            weatherChangeTimer: 0
         };
         
         let championshipState = {
@@ -513,6 +533,19 @@
             { level: 4, name: "IA Elite", efficiency: 0.98, cost: 50000 }
         ];
         
+        const multiRaceManagerLevels = [
+            { level: 0, name: "Aucun", maxRaces: 1, cost: 0 },
+            { level: 1, name: "Manager Basique", maxRaces: 2, cost: 10000 },
+            { level: 2, name: "Manager Pro", maxRaces: 3, cost: 25000 },
+            { level: 3, name: "Manager Elite", maxRaces: 5, cost: 50000 }
+        ];
+        
+        const raceEntryFees = {
+            'debutant': 1500,
+            'intermediaire': 2000,
+            'expert': 3000
+        };
+        
         const championships = [
             { id: 'amateur', name: 'Championnat Amateur', cost: 0, requirement: 1, difficulty: 'debutant', 
               prize1: 50000, prize2: 25000, prize3: 10000 },
@@ -533,7 +566,8 @@
             try {
                 const saveData = {
                     gameData: gameData,
-                    championshipState: championshipState
+                    championshipState: championshipState,
+                    raceState: raceState
                 };
                 localStorage.setItem('sailingGame', JSON.stringify(saveData));
             } catch (error) {
@@ -546,8 +580,16 @@
                 const saved = localStorage.getItem('sailingGame');
                 if (saved) {
                     const saveData = JSON.parse(saved);
-                    gameData = { ...gameData, ...saveData.gameData };
-                    championshipState = { ...championshipState, ...saveData.championshipState };
+                    gameData = Object.assign(gameData, saveData.gameData || {});
+                    championshipState = Object.assign(championshipState, saveData.championshipState || {});
+                    
+                    if (saveData.raceState) {
+                        raceState = Object.assign(raceState, saveData.raceState);
+                        if (raceState.isRacing) {
+                            console.log('Course en cours détectée, redémarrage...');
+                            startRaceLoop();
+                        }
+                    }
                 }
             } catch (error) {
                 console.warn('Erreur chargement:', error);
@@ -556,31 +598,20 @@
         
         // Fonctions d'affichage
         function showScreen(screenName) {
-            // Cacher tous les écrans
             const screens = document.querySelectorAll('.screen');
             screens.forEach(screen => screen.classList.add('hidden'));
-            
-            // Afficher l'écran demandé
             document.getElementById(screenName).classList.remove('hidden');
-            
-            // Mettre à jour l'affichage selon l'écran
             updateDisplay();
         }
         
         function updateDisplay() {
-            // Mettre à jour les stats du joueur
             document.getElementById('player-money').textContent = formatMoney(gameData.money);
             document.getElementById('player-xp').textContent = gameData.xp;
             document.getElementById('player-level').textContent = gameData.level;
             document.getElementById('shop-money').textContent = formatMoney(gameData.money);
             
-            // Mettre à jour le statut de course
             updateRaceStatus();
-            
-            // Mettre à jour les boutons de difficulté
             updateDifficultyButtons();
-            
-            // Mettre à jour les listes (boutique, sponsors, etc.)
             updateShop();
             updateSponsors();
             updateChampionships();
@@ -602,11 +633,9 @@
             ['debutant', 'intermediaire', 'expert'].forEach(diff => {
                 const btn = document.getElementById('diff-' + diff);
                 if (raceState.difficulty === diff) {
-                    btn.classList.add('btn-green');
-                    btn.classList.remove('btn');
+                    btn.className = 'btn btn-green';
                 } else {
-                    btn.classList.add('btn');
-                    btn.classList.remove('btn-green');
+                    btn.className = 'btn';
                 }
             });
         }
@@ -615,6 +644,7 @@
         function setDifficulty(difficulty) {
             raceState.difficulty = difficulty;
             updateDifficultyButtons();
+            updateDuration();
         }
         
         function updateDuration() {
@@ -634,27 +664,55 @@
             }
             
             document.getElementById('duration-display').textContent = displayText;
+            
+            const entryFee = raceEntryFees[raceState.difficulty];
+            document.getElementById('entry-fee').textContent = formatMoney(entryFee);
         }
         
         // Démarrage de course
         function startRace() {
             if (raceState.isRacing) return;
             
+            const entryFee = raceEntryFees[raceState.difficulty];
+            if (gameData.money < entryFee) {
+                alert('Argent insuffisant !\\nFrais d inscription: ' + formatMoney(entryFee) + '\\nVotre argent: ' + formatMoney(gameData.money));
+                return;
+            }
+            
+            const maxRaces = multiRaceManagerLevels.find(m => m.level === gameData.multiRaceManager.level).maxRaces;
+            if (gameData.activeRaces && gameData.activeRaces.length >= maxRaces) {
+                alert('Limite de courses simultanées atteinte !\\nNiveau Manager: ' + maxRaces + ' course(s) max');
+                return;
+            }
+            
+            gameData.money -= entryFee;
+            
             raceState.isRacing = true;
-            raceState.timeLeft = raceState.duration * 60; // Convertir en secondes
+            raceState.timeLeft = raceState.duration * 60;
             raceState.progress = 0;
             raceState.position = 1;
             raceState.sailTrim = 50;
             raceState.weather = ['calme', 'normal', 'venteux'][Math.floor(Math.random() * 3)];
+            raceState.entryFeePaid = entryFee;
+            raceState.events = {
+                nextEventTime: Math.random() * raceState.timeLeft,
+                hasHadEvent: false
+            };
             
-            // Générer les adversaires
             generateCompetitors();
             
-            // Aller à l'écran de course
-            showScreen('race');
+            if (!gameData.activeRaces) gameData.activeRaces = [];
+            gameData.activeRaces.push({
+                id: Date.now(),
+                startTime: Date.now(),
+                duration: raceState.duration,
+                difficulty: raceState.difficulty
+            });
             
-            // Démarrer la boucle de course
+            showScreen('race');
             startRaceLoop();
+            saveGame();
+            updateDisplay();
         }
         
         function generateCompetitors() {
@@ -675,25 +733,31 @@
         function startRaceLoop() {
             if (raceInterval) clearInterval(raceInterval);
             
-            raceInterval = setInterval(() => {
+            raceInterval = setInterval(function() {
                 if (!raceState.isRacing) {
                     clearInterval(raceInterval);
+                    raceInterval = null;
                     return;
                 }
                 
                 updateRaceStep();
                 updateRaceDisplay();
+                saveGame();
                 
-                // Vérifier fin de course
                 if (raceState.timeLeft <= 0 || raceState.progress >= 100) {
                     finishRace();
                 }
-                
             }, 1000);
         }
         
         function updateRaceStep() {
             raceState.timeLeft--;
+            
+            // Événements aléatoires
+            if (!raceState.events.hasHadEvent && raceState.timeLeft <= raceState.events.nextEventTime) {
+                triggerRandomEvent();
+                raceState.events.hasHadEvent = true;
+            }
             
             // Pilote automatique
             if (raceState.isAutopilot) {
@@ -703,12 +767,20 @@
                 if (raceState.weather === 'calme') targetTrim = 40;
                 else if (raceState.weather === 'venteux') targetTrim = 60;
                 
+                if (raceState.currentEvent === 'tempete') targetTrim = 30;
+                else if (raceState.currentEvent === 'vent_favorable') targetTrim = 70;
+                
                 raceState.sailTrim = targetTrim;
             }
             
             // Calcul progression joueur
             const weatherMultiplier = raceState.weather === 'calme' ? 0.8 : 
                                      raceState.weather === 'venteux' ? 1.2 : 1.0;
+            
+            let eventMultiplier = 1.0;
+            if (raceState.currentEvent === 'tempete') eventMultiplier = 0.7;
+            else if (raceState.currentEvent === 'vent_favorable') eventMultiplier = 1.3;
+            else if (raceState.currentEvent === 'reparation') eventMultiplier = 0.9;
             
             let trimEfficiency = 1 - Math.abs(50 - raceState.sailTrim) / 100;
             if (raceState.isAutopilot) {
@@ -717,22 +789,48 @@
             }
             
             const baseProgress = 100 / (raceState.duration * 60);
-            const playerSpeed = (gameData.boat.speed / 10) * weatherMultiplier * trimEfficiency;
+            const playerSpeed = (gameData.boat.speed / 10) * weatherMultiplier * trimEfficiency * eventMultiplier;
             raceState.progress = Math.min(raceState.progress + baseProgress * playerSpeed, 100);
             
             // Progression adversaires
-            raceState.competitors.forEach(comp => {
-                const compSpeed = (comp.speed / 10) * (0.9 + Math.random() * 0.2);
+            raceState.competitors.forEach(function(comp) {
+                const compEventMultiplier = 0.8 + Math.random() * 0.4;
+                const compSpeed = (comp.speed / 10) * (0.9 + Math.random() * 0.2) * compEventMultiplier;
                 comp.progress = Math.min(comp.progress + baseProgress * compSpeed, 100);
             });
             
             // Calcul position
-            const allRacers = [
-                { progress: raceState.progress, isPlayer: true },
-                ...raceState.competitors
+            const allRacers = [{ progress: raceState.progress, isPlayer: true }].concat(raceState.competitors);
+            allRacers.sort(function(a, b) { return b.progress - a.progress; });
+            raceState.position = allRacers.findIndex(function(r) { return r.isPlayer; }) + 1;
+        }
+        
+        function triggerRandomEvent() {
+            const events = [
+                { name: 'tempete', title: '⛈️ Tempête !', description: 'Une tempête ralentit votre progression', duration: 30 },
+                { name: 'vent_favorable', title: '💨 Vent favorable !', description: 'Un vent favorable accélère votre bateau', duration: 45 },
+                { name: 'reparation', title: '🔧 Problème technique', description: 'Problème mineur qui ralentit légèrement', duration: 20 },
+                { name: 'dauphin', title: '🐬 Dauphins !', description: 'Des dauphins vous accompagnent (boost moral)', duration: 15 }
             ];
-            allRacers.sort((a, b) => b.progress - a.progress);
-            raceState.position = allRacers.findIndex(r => r.isPlayer) + 1;
+            
+            const event = events[Math.floor(Math.random() * events.length)];
+            raceState.currentEvent = event.name;
+            raceState.eventTimeLeft = event.duration;
+            
+            showEventNotification(event.title, event.description);
+        }
+        
+        function showEventNotification(title, description) {
+            const notification = document.createElement('div');
+            notification.className = 'event-notification';
+            notification.innerHTML = '<div style="font-weight: bold; margin-bottom: 8px;">' + title + '</div><div>' + description + '</div>';
+            document.body.appendChild(notification);
+            
+            setTimeout(function() {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 3000);
         }
         
         function updateRaceDisplay() {
@@ -741,10 +839,76 @@
             document.getElementById('race-progress').textContent = Math.round(raceState.progress) + '%';
             document.getElementById('sail-value').textContent = raceState.sailTrim;
             
+            // Condition du bateau
+            document.getElementById('boat-condition').textContent = Math.round(raceState.boatCondition);
+            const conditionBar = document.getElementById('condition-bar');
+            conditionBar.style.width = raceState.boatCondition + '%';
+            
+            if (raceState.boatCondition >= 80) {
+                conditionBar.style.background = '#10b981'; // Vert
+                document.getElementById('repair-status').textContent = 'PARFAIT ÉTAT';
+                document.getElementById('repair-status').className = 'optimum';
+            } else if (raceState.boatCondition >= 50) {
+                conditionBar.style.background = '#f59e0b'; // Orange
+                document.getElementById('repair-status').textContent = 'ÉTAT MOYEN';
+                document.getElementById('repair-status').className = 'not-optimum';
+            } else {
+                conditionBar.style.background = '#ef4444'; // Rouge
+                document.getElementById('repair-status').textContent = 'MAUVAIS ÉTAT';
+                document.getElementById('repair-status').className = 'not-optimum';
+            }
+            
+            // Section réparation
+            const repairSection = document.getElementById('repair-section');
+            if (raceState.needsRepair) {
+                repairSection.classList.remove('hidden');
+                document.getElementById('repair-progress').textContent = Math.round(raceState.repairProgress);
+                document.getElementById('repair-total').textContent = Math.round(raceState.repairNeeded);
+            } else {
+                repairSection.classList.add('hidden');
+            }
+            
+            // Checkpoints
+            const checkpointStatus = document.getElementById('checkpoint-status');
+            checkpointStatus.textContent = raceState.currentCheckpoint + '/' + raceState.checkpoints.length + ' passés';
+            
+            const checkpointsDisplay = document.getElementById('checkpoints-display');
+            let checkpointHtml = '';
+            raceState.checkpoints.forEach(function(checkpoint, index) {
+                const status = checkpoint.passed ? '✅' : (raceState.progress >= checkpoint.position - 5 ? '🟡' : '⚪');
+                const color = checkpoint.passed ? '#10b981' : (raceState.progress >= checkpoint.position - 5 ? '#f59e0b' : '#9ca3af');
+                checkpointHtml += '<span style="margin-right: 8px; color: ' + color + '; font-weight: bold;">' + status + ' ' + checkpoint.name + ' (' + checkpoint.position + '%)</span>';
+            });
+            checkpointsDisplay.innerHTML = checkpointHtml;
+            
             // Météo
             const weatherIcons = { calme: '😴', normal: '🌊', venteux: '💨' };
             document.getElementById('weather').textContent = 
                 weatherIcons[raceState.weather] + ' ' + raceState.weather.charAt(0).toUpperCase() + raceState.weather.slice(1);
+            
+            // Événement en cours
+            const eventDiv = document.getElementById('current-event');
+            if (raceState.currentEvent && raceState.eventTimeLeft > 0) {
+                eventDiv.classList.remove('hidden');
+                const events = {
+                    'tempete': { title: '⛈️ Tempête !', desc: 'Vitesse réduite' },
+                    'vent_favorable': { title: '💨 Vent favorable !', desc: 'Vitesse augmentée' },
+                    'reparation': { title: '🔧 Problème technique', desc: 'Léger ralentissement' },
+                    'dauphin': { title: '🐬 Dauphins !', desc: 'Boost de moral' }
+                };
+                const event = events[raceState.currentEvent];
+                document.getElementById('event-title').textContent = event.title;
+                document.getElementById('event-description').textContent = event.desc;
+                document.getElementById('event-timer').textContent = raceState.eventTimeLeft + 's';
+                raceState.eventTimeLeft--;
+                
+                if (raceState.eventTimeLeft <= 0) {
+                    raceState.currentEvent = null;
+                    eventDiv.classList.add('hidden');
+                }
+            } else {
+                eventDiv.classList.add('hidden');
+            }
             
             // Statut des voiles
             const sailStatus = document.getElementById('sail-status');
@@ -756,22 +920,35 @@
                 sailStatus.className = 'not-optimum';
             }
             
-            // Mettre à jour le slider des voiles
             document.getElementById('sail-slider').value = raceState.sailTrim;
-            
-            // Mettre à jour la visualisation de la course
             updateRaceVisualization();
             updateRanking();
         }
         
         function updateRaceVisualization() {
             const track = document.getElementById('race-track');
-            
-            // Nettoyer les bateaux existants
             const existingBoats = track.querySelectorAll('.boat');
-            existingBoats.forEach(boat => boat.remove());
+            existingBoats.forEach(function(boat) { boat.remove(); });
             
-            // Ajouter le bateau du joueur
+            // Supprimer les anciennes bouées
+            const existingBuoys = track.querySelectorAll('.checkpoint-buoy');
+            existingBuoys.forEach(function(buoy) { buoy.remove(); });
+            
+            // Ajouter les bouées (checkpoints)
+            raceState.checkpoints.forEach(function(checkpoint) {
+                const buoy = document.createElement('div');
+                buoy.className = 'checkpoint-buoy';
+                buoy.innerHTML = checkpoint.passed ? '✅' : '⚓';
+                buoy.style.position = 'absolute';
+                buoy.style.left = (checkpoint.position * 0.9) + '%'; // 90% pour rester dans les limites
+                buoy.style.top = '10px';
+                buoy.style.fontSize = '16px';
+                buoy.style.transform = 'translateX(-50%)';
+                buoy.style.zIndex = '10';
+                track.appendChild(buoy);
+            });
+            
+            // Bateau du joueur
             const playerBoat = document.createElement('div');
             playerBoat.className = 'boat boat-player';
             playerBoat.innerHTML = '⛵';
@@ -779,8 +956,8 @@
             playerBoat.style.top = '20px';
             track.appendChild(playerBoat);
             
-            // Ajouter les bateaux adversaires
-            raceState.competitors.forEach((comp, index) => {
+            // Bateaux adversaires
+            raceState.competitors.forEach(function(comp, index) {
                 const boat = document.createElement('div');
                 boat.className = 'boat';
                 boat.innerHTML = '🚤';
@@ -790,30 +967,100 @@
             });
         }
         
+        function finishRace() {
+            // Vérifier que tous les checkpoints sont passés
+            const allCheckpointsPassed = raceState.checkpoints.every(function(checkpoint) {
+                return checkpoint.passed;
+            });
+            
+            if (!allCheckpointsPassed && raceState.progress >= 100) {
+                // Pénalité pour avoir raté des checkpoints
+                raceState.progress = 95; // Réduire le progrès
+                showEventNotification('❌ PÉNALITÉ !', 'Vous avez raté des bouées ! Retournez les passer !');
+                return; // Ne pas finir la course
+            }
+            
+            raceState.isRacing = false;
+            if (raceInterval) {
+                clearInterval(raceInterval);
+                raceInterval = null;
+            }
+            
+            const position = raceState.position;
+            const isWinner = raceState.progress >= 100 && position === 1 && allCheckpointsPassed;
+            
+            let prize = 0;
+            let xp = 0;
+            
+            // Bonus pour l'état du bateau
+            const conditionBonus = raceState.boatCondition >= 80 ? 1.2 : raceState.boatCondition >= 50 ? 1.0 : 0.8;
+            
+            if (championshipState.isActive) {
+                const points = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1][position - 1] || 0;
+                championshipState.playerPoints += points;
+                championshipState.currentRace++;
+                
+                prize = Math.max(1000, 500 * (9 - position)) * conditionBonus;
+                xp = Math.max(25, 100 - position * 10);
+                
+                if (championshipState.currentRace > 20) {
+                    finishChampionship();
+                }
+            } else {
+                prize = (isWinner ? 8000 : position <= 3 ? 3000 : 1000) * conditionBonus;
+                xp = isWinner ? 150 : position <= 3 ? 75 : 25;
+            }
+            
+            gameData.money += Math.round(prize);
+            gameData.xp += xp;
+            gameData.level = Math.floor(gameData.xp / 100) + 1;
+            
+            gameData.raceHistory.push({
+                date: new Date().toLocaleDateString(),
+                position: position,
+                prize: Math.round(prize),
+                xp: xp,
+                difficulty: raceState.difficulty,
+                duration: raceState.duration,
+                type: championshipState.isActive ? 'Championnat' : 'Course libre',
+                boatCondition: Math.round(raceState.boatCondition),
+                checkpointsPassed: raceState.currentCheckpoint + '/' + raceState.checkpoints.length
+            });
+            
+            if (gameData.activeRaces) {
+                gameData.activeRaces = gameData.activeRaces.filter(function(race) {
+                    return Date.now() - race.startTime < race.duration * 60 * 1000;
+                });
+            }
+            
+            saveGame();
+            updateDisplay();
+            
+            let resultMessage = 'Course terminée !\\n';
+            resultMessage += 'Position: ' + position + '/8\\n';
+            resultMessage += 'Gains: ' + formatMoney(Math.round(prize)) + ' + ' + xp + ' XP\\n';
+            resultMessage += 'État du bateau: ' + Math.round(raceState.boatCondition) + '%\\n';
+            resultMessage += 'Checkpoints: ' + raceState.currentCheckpoint + '/' + raceState.checkpoints.length;
+            if (conditionBonus !== 1.0) {
+                resultMessage += '\\nBonus condition: x' + conditionBonus.toFixed(1);
+            }
+            
+            alert(resultMessage);
+        }
+        
         function updateRanking() {
             const rankingDiv = document.getElementById('race-ranking');
-            const allRacers = [
-                { name: 'Vous', progress: raceState.progress, isPlayer: true },
-                ...raceState.competitors
-            ];
-            allRacers.sort((a, b) => b.progress - a.progress);
+            const allRacers = [{ name: 'Vous', progress: raceState.progress, isPlayer: true }].concat(raceState.competitors);
+            allRacers.sort(function(a, b) { return b.progress - a.progress; });
             
             let html = '';
-            allRacers.forEach((racer, index) => {
+            allRacers.forEach(function(racer, index) {
                 const position = index + 1;
                 const medal = position === 1 ? '🥇' : position === 2 ? '🥈' : position === 3 ? '🥉' : position;
                 const playerClass = racer.isPlayer ? 'font-bold' : '';
                 const bgColor = racer.isPlayer ? 'background: #dbeafe;' : 'background: #f9fafb;';
                 
-                html += `
-                    <div style="display: flex; justify-content: space-between; align-items: center; 
-                                padding: 8px; margin: 4px 0; border-radius: 6px; ${bgColor}">
-                        <span class="${playerClass}">
-                            ${medal} ${racer.name}
-                        </span>
-                        <span class="${playerClass}">${Math.round(racer.progress)}%</span>
-                    </div>
-                `;
+                html += '<div style="display: flex; justify-content: space-between; align-items: center; padding: 8px; margin: 4px 0; border-radius: 6px; ' + bgColor + '"><span class="' + playerClass + '">' + medal + ' ' + racer.name + '</span><span class="' + playerClass + '">' + Math.round(racer.progress) + '%</span></div>';
             });
             rankingDiv.innerHTML = html;
         }
@@ -833,10 +1080,8 @@
                 slider.disabled = false;
             }
             
-            // Mettre à jour l'efficacité
-            const autopilot = autopilotLevels.find(a => a.level === gameData.autopilot.level);
-            document.getElementById('autopilot-efficiency').textContent = 
-                'Efficacité: ' + Math.round(autopilot.efficiency * 100) + '%';
+            const autopilot = autopilotLevels.find(function(a) { return a.level === gameData.autopilot.level; });
+            document.getElementById('autopilot-efficiency').textContent = 'Efficacité: ' + Math.round(autopilot.efficiency * 100) + '%';
         }
         
         function updateSails() {
@@ -847,62 +1092,88 @@
         }
         
         function finishRace() {
+            // Vérifier que tous les checkpoints sont passés
+            const allCheckpointsPassed = raceState.checkpoints.every(function(checkpoint) {
+                return checkpoint.passed;
+            });
+            
+            if (!allCheckpointsPassed && raceState.progress >= 100) {
+                // Pénalité pour avoir raté des checkpoints
+                raceState.progress = 95; // Réduire le progrès
+                showEventNotification('❌ PÉNALITÉ !', 'Vous avez raté des bouées ! Retournez les passer !');
+                return; // Ne pas finir la course
+            }
+            
             raceState.isRacing = false;
-            clearInterval(raceInterval);
+            if (raceInterval) {
+                clearInterval(raceInterval);
+                raceInterval = null;
+            }
             
             const position = raceState.position;
-            const isWinner = raceState.progress >= 100 && position === 1;
+            const isWinner = raceState.progress >= 100 && position === 1 && allCheckpointsPassed;
             
-            // Calcul des récompenses
             let prize = 0;
             let xp = 0;
             
+            // Bonus pour l'état du bateau
+            const conditionBonus = raceState.boatCondition >= 80 ? 1.2 : raceState.boatCondition >= 50 ? 1.0 : 0.8;
+            
             if (championshipState.isActive) {
-                // Course de championnat
                 const points = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1][position - 1] || 0;
                 championshipState.playerPoints += points;
                 championshipState.currentRace++;
                 
-                prize = Math.max(1000, 500 * (9 - position));
+                prize = Math.max(1000, 500 * (9 - position)) * conditionBonus;
                 xp = Math.max(25, 100 - position * 10);
                 
-                // Vérifier fin de championnat
                 if (championshipState.currentRace > 20) {
                     finishChampionship();
                 }
             } else {
-                // Course libre
-                prize = isWinner ? 8000 : position <= 3 ? 3000 : 1000;
+                prize = (isWinner ? 8000 : position <= 3 ? 3000 : 1000) * conditionBonus;
                 xp = isWinner ? 150 : position <= 3 ? 75 : 25;
             }
             
-            // Appliquer les récompenses
-            gameData.money += prize;
+            gameData.money += Math.round(prize);
             gameData.xp += xp;
             gameData.level = Math.floor(gameData.xp / 100) + 1;
             
-            // Ajouter à l'historique
             gameData.raceHistory.push({
                 date: new Date().toLocaleDateString(),
                 position: position,
-                prize: prize,
+                prize: Math.round(prize),
                 xp: xp,
                 difficulty: raceState.difficulty,
                 duration: raceState.duration,
-                type: championshipState.isActive ? 'Championnat' : 'Course libre'
+                type: championshipState.isActive ? 'Championnat' : 'Course libre',
+                boatCondition: Math.round(raceState.boatCondition),
+                checkpointsPassed: raceState.currentCheckpoint + '/' + raceState.checkpoints.length
             });
             
-            // Sauvegarder et mettre à jour
+            if (gameData.activeRaces) {
+                gameData.activeRaces = gameData.activeRaces.filter(function(race) {
+                    return Date.now() - race.startTime < race.duration * 60 * 1000;
+                });
+            }
+            
             saveGame();
             updateDisplay();
             
-            // Afficher les résultats
-            alert(`Course terminée !\\nPosition: ${position}/8\\nGains: ${formatMoney(prize)} + ${xp} XP`);
+            let resultMessage = 'Course terminée !\\n';
+            resultMessage += 'Position: ' + position + '/8\\n';
+            resultMessage += 'Gains: ' + formatMoney(Math.round(prize)) + ' + ' + xp + ' XP\\n';
+            resultMessage += 'État du bateau: ' + Math.round(raceState.boatCondition) + '%\\n';
+            resultMessage += 'Checkpoints: ' + raceState.currentCheckpoint + '/' + raceState.checkpoints.length;
+            if (conditionBonus !== 1.0) {
+                resultMessage += '\\nBonus condition: x' + conditionBonus.toFixed(1);
+            }
+            
+            alert(resultMessage);
         }
         
         function finishChampionship() {
-            // Calculer la position finale du championnat
-            const finalPosition = 1; // Simplification - à calculer selon les points
+            const finalPosition = 1;
             let championshipPrize = 0;
             
             if (finalPosition === 1) championshipPrize = championshipState.championshipData.prize1;
@@ -922,7 +1193,7 @@
             championshipState.currentRace = 0;
             championshipState.playerPoints = 0;
             
-            alert(`Championnat terminé !\\nPosition finale: ${finalPosition}\\nPrix: ${formatMoney(championshipPrize)}`);
+            alert('Championnat terminé !\\nPosition finale: ' + finalPosition + '\\nPrix: ' + formatMoney(championshipPrize));
         }
         
         // Boutique
@@ -935,68 +1206,54 @@
             ];
             
             let html = '';
-            upgrades.forEach(upgrade => {
+            upgrades.forEach(function(upgrade) {
                 const canAfford = gameData.money >= upgrade.cost;
                 const btnClass = canAfford ? 'btn btn-green' : 'btn';
                 const disabled = canAfford ? '' : 'disabled';
                 
-                html += `
-                    <div class="upgrade-item">
-                        <div>
-                            <div class="font-bold">${upgrade.name}</div>
-                            <div>Niveau actuel: ${upgrade.current}</div>
-                            <div style="color: #10b981; font-weight: bold;">${formatMoney(upgrade.cost)}</div>
-                        </div>
-                        <button class="${btnClass}" onclick="upgradeBoat('${upgrade.stat}', ${upgrade.cost})" ${disabled}>
-                            Améliorer
-                        </button>
-                    </div>
-                `;
+                html += '<div class="upgrade-item"><div><div class="font-bold">' + upgrade.name + '</div><div>Niveau actuel: ' + upgrade.current + '</div><div style="color: #10b981; font-weight: bold;">' + formatMoney(upgrade.cost) + '</div></div><button class="' + btnClass + '" onclick="upgradeBoat(\'' + upgrade.stat + '\', ' + upgrade.cost + ')" ' + disabled + '>Améliorer</button></div>';
             });
             boatUpgrades.innerHTML = html;
             
             // Pilote automatique
             const autopilotDiv = document.getElementById('autopilot-upgrades');
             const currentLevel = gameData.autopilot.level;
-            const currentAutopilot = autopilotLevels.find(a => a.level === currentLevel);
+            const currentAutopilot = autopilotLevels.find(function(a) { return a.level === currentLevel; });
             
-            let autopilotHtml = `
-                <div class="upgrade-item">
-                    <div>
-                        <div class="font-bold">Niveau Actuel: ${currentAutopilot.name}</div>
-                        <div>Efficacité: ${Math.round(currentAutopilot.efficiency * 100)}%</div>
-                    </div>
-                    <div style="font-size: 24px;">🤖</div>
-                </div>
-            `;
+            let autopilotHtml = '<div class="upgrade-item"><div><div class="font-bold">Niveau Actuel: ' + currentAutopilot.name + '</div><div>Efficacité: ' + Math.round(currentAutopilot.efficiency * 100) + '%</div></div><div style="font-size: 24px;">🤖</div></div>';
             
             if (currentLevel < 4) {
-                const nextLevel = autopilotLevels.find(a => a.level === currentLevel + 1);
+                const nextLevel = autopilotLevels.find(function(a) { return a.level === currentLevel + 1; });
                 const canAfford = gameData.money >= nextLevel.cost;
                 const btnClass = canAfford ? 'btn btn-green' : 'btn';
                 const disabled = canAfford ? '' : 'disabled';
                 
-                autopilotHtml += `
-                    <div class="upgrade-item">
-                        <div>
-                            <div class="font-bold">Prochaine amélioration: ${nextLevel.name}</div>
-                            <div>Efficacité: ${Math.round(nextLevel.efficiency * 100)}%</div>
-                            <div style="color: #10b981; font-weight: bold;">${formatMoney(nextLevel.cost)}</div>
-                        </div>
-                        <button class="${btnClass}" onclick="upgradeAutopilot(${nextLevel.cost}, ${nextLevel.level})" ${disabled}>
-                            Améliorer
-                        </button>
-                    </div>
-                `;
+                autopilotHtml += '<div class="upgrade-item"><div><div class="font-bold">Prochaine amélioration: ' + nextLevel.name + '</div><div>Efficacité: ' + Math.round(nextLevel.efficiency * 100) + '%</div><div style="color: #10b981; font-weight: bold;">' + formatMoney(nextLevel.cost) + '</div></div><button class="' + btnClass + '" onclick="upgradeAutopilot(' + nextLevel.cost + ', ' + nextLevel.level + ')" ' + disabled + '>Améliorer</button></div>';
             } else {
-                autopilotHtml += `
-                    <div class="upgrade-item" style="background: #fef3c7;">
-                        <div class="font-bold text-center">🏆 NIVEAU MAXIMUM ATTEINT !</div>
-                    </div>
-                `;
+                autopilotHtml += '<div class="upgrade-item" style="background: #fef3c7;"><div class="font-bold text-center">🏆 NIVEAU MAXIMUM ATTEINT !</div></div>';
             }
             
             autopilotDiv.innerHTML = autopilotHtml;
+            
+            // Multi-Race Manager
+            const managerDiv = document.getElementById('manager-upgrades');
+            const currentManagerLevel = gameData.multiRaceManager.level;
+            const currentManager = multiRaceManagerLevels.find(function(m) { return m.level === currentManagerLevel; });
+            
+            let managerHtml = '<div class="upgrade-item"><div><div class="font-bold">Niveau Actuel: ' + currentManager.name + '</div><div>Courses simultanées: ' + currentManager.maxRaces + '</div></div><div style="font-size: 24px;">🏢</div></div>';
+            
+            if (currentManagerLevel < 3) {
+                const nextLevel = multiRaceManagerLevels.find(function(m) { return m.level === currentManagerLevel + 1; });
+                const canAfford = gameData.money >= nextLevel.cost;
+                const btnClass = canAfford ? 'btn btn-green' : 'btn';
+                const disabled = canAfford ? '' : 'disabled';
+                
+                managerHtml += '<div class="upgrade-item"><div><div class="font-bold">Prochaine amélioration: ' + nextLevel.name + '</div><div>Courses simultanées: ' + nextLevel.maxRaces + '</div><div style="color: #10b981; font-weight: bold;">' + formatMoney(nextLevel.cost) + '</div></div><button class="' + btnClass + '" onclick="upgradeManager(' + nextLevel.cost + ', ' + nextLevel.level + ')" ' + disabled + '>Améliorer</button></div>';
+            } else {
+                managerHtml += '<div class="upgrade-item" style="background: #fef3c7;"><div class="font-bold text-center">🏆 NIVEAU MAXIMUM ATTEINT !</div></div>';
+            }
+            
+            managerDiv.innerHTML = managerHtml;
         }
         
         function upgradeBoat(stat, cost) {
@@ -1011,7 +1268,7 @@
         function upgradeAutopilot(cost, newLevel) {
             if (gameData.money >= cost) {
                 gameData.money -= cost;
-                const newAutopilot = autopilotLevels.find(a => a.level === newLevel);
+                const newAutopilot = autopilotLevels.find(function(a) { return a.level === newLevel; });
                 gameData.autopilot = {
                     level: newLevel,
                     name: newAutopilot.name,
@@ -1022,12 +1279,26 @@
             }
         }
         
+        function upgradeManager(cost, newLevel) {
+            if (gameData.money >= cost) {
+                gameData.money -= cost;
+                const newManager = multiRaceManagerLevels.find(function(m) { return m.level === newLevel; });
+                gameData.multiRaceManager = {
+                    level: newLevel,
+                    maxConcurrentRaces: newManager.maxRaces
+                };
+                saveGame();
+                updateDisplay();
+                alert('Manager amélioré !\\nVous pouvez maintenant gérer ' + newManager.maxRaces + ' courses simultanément !');
+            }
+        }
+        
         // Sponsors
         function updateSponsors() {
             const sponsorsDiv = document.getElementById('sponsors-list');
             let html = '';
             
-            sponsors.forEach(sponsor => {
+            sponsors.forEach(function(sponsor) {
                 const hasRequirement = gameData.level >= sponsor.requirement;
                 const hasContract = gameData.sponsors.includes(sponsor.name);
                 
@@ -1035,23 +1306,12 @@
                 if (hasContract) {
                     statusHtml = '<span class="btn btn-green" style="cursor: default;">Contrat Actif</span>';
                 } else if (hasRequirement) {
-                    statusHtml = `<button class="btn btn-purple" onclick="signSponsor('${sponsor.name}', ${sponsor.bonus})">Signer le Contrat</button>`;
+                    statusHtml = '<button class="btn btn-purple" onclick="signSponsor(\'' + sponsor.name + '\', ' + sponsor.bonus + ')">Signer le Contrat</button>';
                 } else {
                     statusHtml = '<span class="btn" style="cursor: default;">Niveau Insuffisant</span>';
                 }
                 
-                html += `
-                    <div class="sponsor-item">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <div class="font-bold text-lg">${sponsor.name}</div>
-                                <div>Bonus: ${formatMoney(sponsor.bonus)}</div>
-                                <div>Niveau requis: ${sponsor.requirement}</div>
-                            </div>
-                            <div>${statusHtml}</div>
-                        </div>
-                    </div>
-                `;
+                html += '<div class="sponsor-item"><div style="display: flex; justify-content: space-between; align-items: center;"><div><div class="font-bold text-lg">' + sponsor.name + '</div><div>Bonus: ' + formatMoney(sponsor.bonus) + '</div><div>Niveau requis: ' + sponsor.requirement + '</div></div><div>' + statusHtml + '</div></div></div>';
             });
             
             sponsorsDiv.innerHTML = html;
@@ -1062,28 +1322,26 @@
             gameData.sponsors.push(name);
             saveGame();
             updateDisplay();
-            alert(`Contrat signé avec ${name} !\\nBonus reçu: ${formatMoney(bonus)}`);
+            alert('Contrat signé avec ' + name + ' !\\nBonus reçu: ' + formatMoney(bonus));
         }
         
         // Championnats
         function updateChampionships() {
             const champDiv = document.getElementById('championships-list');
             
-            // Afficher championnat actif
             const activeDiv = document.getElementById('active-championship');
             if (championshipState.isActive) {
                 activeDiv.classList.remove('hidden');
                 document.getElementById('active-champ-name').textContent = championshipState.championshipData.name;
                 document.getElementById('champ-current-race').textContent = championshipState.currentRace + '/20';
                 document.getElementById('champ-your-points').textContent = championshipState.playerPoints;
-                document.getElementById('champ-your-position').textContent = '1er'; // Simplification
+                document.getElementById('champ-your-position').textContent = '1er';
             } else {
                 activeDiv.classList.add('hidden');
             }
             
-            // Liste des championnats
             let html = '';
-            championships.forEach(champ => {
+            championships.forEach(function(champ) {
                 const isUnlocked = gameData.unlockedChampionships.includes(champ.id);
                 const canUnlock = gameData.level >= champ.requirement && gameData.money >= champ.cost;
                 
@@ -1091,38 +1349,16 @@
                 if (!isUnlocked && champ.cost > 0) {
                     const btnClass = canUnlock ? 'btn btn-yellow' : 'btn';
                     const disabled = canUnlock ? '' : 'disabled';
-                    actionHtml = `<button class="${btnClass}" onclick="unlockChampionship('${champ.id}', ${champ.cost})" ${disabled}>Déverrouiller (${formatMoney(champ.cost)})</button>`;
+                    actionHtml = '<button class="' + btnClass + '" onclick="unlockChampionship(\'' + champ.id + '\', ' + champ.cost + ')" ' + disabled + '>Déverrouiller (' + formatMoney(champ.cost) + ')</button>';
                 } else if (isUnlocked && !championshipState.isActive) {
-                    actionHtml = `
-                        <div>
-                            <select id="champ-duration-${champ.id}">
-                                <option value="5">5 minutes</option>
-                                <option value="15">15 minutes</option>
-                                <option value="60">1 heure</option>
-                                <option value="180">3 heures</option>
-                            </select>
-                            <button class="btn btn-green" onclick="startChampionship('${champ.id}')">Commencer</button>
-                        </div>
-                    `;
+                    actionHtml = '<div><select id="champ-duration-' + champ.id + '"><option value="5">5 minutes</option><option value="15">15 minutes</option><option value="60">1 heure</option><option value="1440">24 heures</option><option value="2880">48 heures</option><option value="7200">5 jours</option><option value="10080">7 jours</option></select><button class="btn btn-green" onclick="startChampionship(\'' + champ.id + '\')">Commencer</button></div>';
                 } else if (championshipState.isActive) {
                     actionHtml = '<span class="btn" style="cursor: default;">Championnat en cours</span>';
                 } else {
                     actionHtml = '<span class="btn btn-green" style="cursor: default;">Déverrouillé</span>';
                 }
                 
-                html += `
-                    <div class="upgrade-item">
-                        <div>
-                            <div class="font-bold text-lg">${champ.name}</div>
-                            <div>Difficulté: ${champ.difficulty}</div>
-                            <div>Niveau requis: ${champ.requirement}</div>
-                            <div style="color: #f59e0b; font-weight: bold;">
-                                🥇 ${formatMoney(champ.prize1)} | 🥈 ${formatMoney(champ.prize2)} | 🥉 ${formatMoney(champ.prize3)}
-                            </div>
-                        </div>
-                        <div>${actionHtml}</div>
-                    </div>
-                `;
+                html += '<div class="upgrade-item"><div><div class="font-bold text-lg">' + champ.name + '</div><div>Difficulté: ' + champ.difficulty + '</div><div>Niveau requis: ' + champ.requirement + '</div><div style="color: #f59e0b; font-weight: bold;">🥇 ' + formatMoney(champ.prize1) + ' | 🥈 ' + formatMoney(champ.prize2) + ' | 🥉 ' + formatMoney(champ.prize3) + '</div></div><div>' + actionHtml + '</div></div>';
             });
             
             champDiv.innerHTML = html;
@@ -1134,12 +1370,12 @@
                 gameData.unlockedChampionships.push(champId);
                 saveGame();
                 updateDisplay();
-                alert(`Championnat déverrouillé !`);
+                alert('Championnat déverrouillé !');
             }
         }
         
         function startChampionship(champId) {
-            const championship = championships.find(c => c.id === champId);
+            const championship = championships.find(function(c) { return c.id === champId; });
             const durationSelect = document.getElementById('champ-duration-' + champId);
             const duration = parseInt(durationSelect.value);
             
@@ -1152,7 +1388,7 @@
             raceState.duration = duration;
             
             saveGame();
-            alert(`Championnat ${championship.name} commencé !\\n20 courses vous attendent.`);
+            alert('Championnat ' + championship.name + ' commencé !\\n20 courses vous attendent.');
             updateDisplay();
         }
         
@@ -1161,52 +1397,24 @@
             const raceHistoryDiv = document.getElementById('race-history');
             const champHistoryDiv = document.getElementById('championship-history');
             
-            // Historique des courses
             if (gameData.raceHistory.length === 0) {
                 raceHistoryDiv.innerHTML = '<p class="text-center" style="color: #6b7280;">Aucune course terminée</p>';
             } else {
                 let html = '';
-                gameData.raceHistory.slice(-10).reverse().forEach(race => {
+                gameData.raceHistory.slice(-10).reverse().forEach(function(race) {
                     const medal = race.position === 1 ? '🥇' : race.position === 2 ? '🥈' : race.position === 3 ? '🥉' : race.position + 'e';
-                    html += `
-                        <div style="display: flex; justify-content: space-between; align-items: center; 
-                                    background: #f9fafb; padding: 12px; margin: 8px 0; border-radius: 6px;">
-                            <div>
-                                <div class="font-bold">${race.date} - ${race.type}</div>
-                                <div>Difficulté: ${race.difficulty} | Durée: ${race.duration} min</div>
-                            </div>
-                            <div style="text-align: right;">
-                                <div class="font-bold">${medal}</div>
-                                <div style="color: #10b981;">+${formatMoney(race.prize)}</div>
-                                <div style="color: #3b82f6;">+${race.xp} XP</div>
-                            </div>
-                        </div>
-                    `;
+                    html += '<div style="display: flex; justify-content: space-between; align-items: center; background: #f9fafb; padding: 12px; margin: 8px 0; border-radius: 6px;"><div><div class="font-bold">' + race.date + ' - ' + race.type + '</div><div>Difficulté: ' + race.difficulty + ' | Durée: ' + race.duration + ' min</div></div><div style="text-align: right;"><div class="font-bold">' + medal + '</div><div style="color: #10b981;">+' + formatMoney(race.prize) + '</div><div style="color: #3b82f6;">+' + race.xp + ' XP</div></div></div>';
                 });
                 raceHistoryDiv.innerHTML = html;
             }
             
-            // Historique des championnats
             if (gameData.championships.length === 0) {
                 champHistoryDiv.innerHTML = '<p class="text-center" style="color: #6b7280;">Aucun championnat terminé</p>';
             } else {
                 let html = '';
-                gameData.championships.forEach(champ => {
+                gameData.championships.forEach(function(champ) {
                     const medal = champ.position === 1 ? '🏆' : champ.position === 2 ? '🥈' : champ.position === 3 ? '🥉' : champ.position + 'e';
-                    html += `
-                        <div style="display: flex; justify-content: space-between; align-items: center; 
-                                    background: #fef3c7; padding: 12px; margin: 8px 0; border-radius: 6px;">
-                            <div>
-                                <div class="font-bold">${champ.name}</div>
-                                <div>${champ.date}</div>
-                            </div>
-                            <div style="text-align: right;">
-                                <div class="font-bold">${medal}</div>
-                                <div style="color: #3b82f6;">${champ.points} pts</div>
-                                <div style="color: #10b981;">+${formatMoney(champ.prize)}</div>
-                            </div>
-                        </div>
-                    `;
+                    html += '<div style="display: flex; justify-content: space-between; align-items: center; background: #fef3c7; padding: 12px; margin: 8px 0; border-radius: 6px;"><div><div class="font-bold">' + champ.name + '</div><div>' + champ.date + '</div></div><div style="text-align: right;"><div class="font-bold">' + medal + '</div><div style="color: #3b82f6;">' + champ.points + ' pts</div><div style="color: #10b981;">+' + formatMoney(champ.prize) + '</div></div></div>';
                 });
                 champHistoryDiv.innerHTML = html;
             }
@@ -1223,17 +1431,20 @@
             return mins + ':' + secs.toString().padStart(2, '0');
         }
         
-        // Initialisation du jeu
+        // Initialisation
         function initGame() {
             loadGame();
             updateDisplay();
             updateDuration();
             
-            // Afficher le menu principal
-            showScreen('menu');
+            if (raceState.isRacing) {
+                showScreen('race');
+                console.log('Course restaurée !');
+            } else {
+                showScreen('menu');
+            }
         }
         
-        // Démarrer le jeu quand la page est chargée
         window.addEventListener('load', initGame);
     </script>
 </body>
