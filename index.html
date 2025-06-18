@@ -660,11 +660,12 @@
             raceInterval = setInterval(() => {
                 if (!raceState.isRacing) {
                     clearInterval(raceInterval);
+                    raceInterval = null;
                     return;
                 }
                 
                 updateRace();
-                renderScreen();
+                updateRaceDisplay(); // Mettre à jour l'affichage pendant la course
             }, 1000);
         }
         
@@ -739,6 +740,11 @@
         
         // Fin de course
         function finishRace() {
+            if (raceInterval) {
+                clearInterval(raceInterval);
+                raceInterval = null;
+            }
+            
             raceState.isRacing = false;
             const finalPosition = raceState.position;
             const isWinner = raceState.progress >= 100 && raceState.position === 1;
@@ -1378,6 +1384,7 @@
         function setSailTrim(trim) {
             if (!raceState.isAutoPilot) {
                 raceState.sailTrim = parseInt(trim);
+                renderScreen();
             }
         }
         
@@ -1388,8 +1395,16 @@
         
         function startChampionshipWithDuration(championshipId) {
             const championship = availableChampionships.find(c => c.id === championshipId);
-            const duration = parseInt(document.getElementById(`duration-${championshipId}`).value);
+            const durationSelect = document.getElementById(`duration-${championshipId}`);
+            const duration = parseInt(durationSelect.value);
             startChampionship(championship, duration);
+        }
+        
+        // Correction: fonction manquante pour l'écran de course
+        function updateRaceDisplay() {
+            if (currentScreen === 'race' && raceState.isRacing) {
+                renderScreen();
+            }
         }
         
         // Rendu principal
