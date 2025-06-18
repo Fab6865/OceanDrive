@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Championnat de Voile</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.js"></script>
+    <title>Course de Voilier</title>
     <style>
         * {
             margin: 0;
@@ -13,268 +12,136 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(to bottom, #60a5fa, #2563eb);
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #4f9cf9, #2563eb);
             min-height: 100vh;
+            color: #333;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 24px;
+            padding: 20px;
         }
         
         .card {
             background: white;
             border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+        
+        .btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+            margin: 5px;
+        }
+        
+        .btn:hover {
+            background: #2563eb;
+        }
+        
+        .btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+        
+        .btn-green { background: #10b981; }
+        .btn-green:hover { background: #059669; }
+        
+        .btn-yellow { background: #f59e0b; }
+        .btn-yellow:hover { background: #d97706; }
+        
+        .btn-red { background: #ef4444; }
+        .btn-red:hover { background: #dc2626; }
+        
+        .btn-purple { background: #8b5cf6; }
+        .btn-purple:hover { background: #7c3aed; }
+        
+        .btn-orange { background: #f97316; }
+        .btn-orange:hover { background: #ea580c; }
         
         .grid {
             display: grid;
             gap: 16px;
         }
         
-        .grid-3 {
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        }
+        .grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .grid-4 { grid-template-columns: repeat(4, 1fr); }
+        .grid-5 { grid-template-columns: repeat(5, 1fr); }
         
-        .grid-5 {
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        }
-        
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-        
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .btn-primary {
-            background: #10b981;
-            color: white;
-        }
-        
-        .btn-primary:hover:not(:disabled) {
-            background: #059669;
-        }
-        
-        .btn-secondary {
-            background: #6b7280;
-            color: white;
-        }
-        
-        .btn-secondary:hover:not(:disabled) {
-            background: #4b5563;
-        }
-        
-        .btn-yellow {
-            background: #f59e0b;
-            color: white;
-        }
-        
-        .btn-yellow:hover:not(:disabled) {
-            background: #d97706;
-        }
-        
-        .btn-blue {
-            background: #3b82f6;
-            color: white;
-        }
-        
-        .btn-blue:hover:not(:disabled) {
-            background: #2563eb;
-        }
-        
-        .btn-orange {
-            background: #f97316;
-            color: white;
-        }
-        
-        .btn-orange:hover:not(:disabled) {
-            background: #ea580c;
-        }
-        
-        .btn-purple {
-            background: #8b5cf6;
-            color: white;
-        }
-        
-        .btn-purple:hover:not(:disabled) {
-            background: #7c3aed;
-        }
+        .text-center { text-align: center; }
+        .text-white { color: white; }
+        .text-lg { font-size: 1.125rem; }
+        .text-xl { font-size: 1.25rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-3xl { font-size: 1.875rem; }
+        .font-bold { font-weight: bold; }
+        .mb-4 { margin-bottom: 16px; }
+        .mb-6 { margin-bottom: 24px; }
+        .mt-4 { margin-top: 16px; }
+        .p-4 { padding: 16px; }
+        .hidden { display: none; }
         
         .stat-card {
-            text-align: center;
-            padding: 16px;
+            background: #f0f9ff;
+            border: 2px solid #0ea5e9;
             border-radius: 8px;
+            padding: 16px;
+            text-align: center;
         }
         
         .stat-green {
-            background: #d1fae5;
+            background: #ecfdf5;
+            border-color: #10b981;
             color: #065f46;
         }
         
-        .stat-blue {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-        
-        .stat-purple {
-            background: #e9d5ff;
-            color: #6b21a8;
-        }
-        
         .stat-yellow {
-            background: #fef3c7;
+            background: #fefbeb;
+            border-color: #f59e0b;
             color: #92400e;
         }
         
-        .text-2xl {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-        
-        .text-3xl {
-            font-size: 1.875rem;
-            font-weight: bold;
-        }
-        
-        .text-4xl {
-            font-size: 2.25rem;
-            font-weight: bold;
-        }
-        
-        .text-center {
-            text-align: center;
-        }
-        
-        .text-white {
-            color: white;
-        }
-        
-        .mb-2 {
-            margin-bottom: 8px;
-        }
-        
-        .mb-4 {
-            margin-bottom: 16px;
-        }
-        
-        .mb-6 {
-            margin-bottom: 24px;
-        }
-        
-        .mb-8 {
-            margin-bottom: 32px;
-        }
-        
-        .mt-4 {
-            margin-top: 16px;
-        }
-        
-        .flex {
-            display: flex;
-        }
-        
-        .flex-col {
-            flex-direction: column;
-        }
-        
-        .justify-between {
-            justify-content: space-between;
-        }
-        
-        .justify-center {
-            justify-content: center;
-        }
-        
-        .items-center {
-            align-items: center;
-        }
-        
-        .gap-2 {
-            gap: 8px;
-        }
-        
-        .gap-3 {
-            gap: 12px;
-        }
-        
-        .gap-4 {
-            gap: 16px;
-        }
-        
-        .w-full {
-            width: 100%;
-        }
-        
-        .hidden {
-            display: none;
-        }
-        
-        .font-bold {
-            font-weight: bold;
-        }
-        
-        .text-lg {
-            font-size: 1.125rem;
-        }
-        
-        .text-xl {
-            font-size: 1.25rem;
-        }
-        
-        .space-y-2 > * + * {
-            margin-top: 8px;
-        }
-        
-        .space-y-3 > * + * {
-            margin-top: 12px;
-        }
-        
-        .space-y-4 > * + * {
-            margin-top: 16px;
-        }
-        
-        .space-y-6 > * + * {
-            margin-top: 24px;
-        }
-        
-        input[type="range"] {
-            width: 100%;
-            margin: 8px 0;
-        }
-        
-        select {
-            padding: 8px;
-            border: 1px solid #d1d5db;
-            border-radius: 4px;
+        .stat-purple {
+            background: #f5f3ff;
+            border-color: #8b5cf6;
+            color: #581c87;
         }
         
         .race-track {
-            position: relative;
-            background: linear-gradient(to right, #bfdbfe, #60a5fa);
-            height: 128px;
+            background: linear-gradient(90deg, #bfdbfe 0%, #3b82f6 100%);
+            height: 100px;
             border-radius: 8px;
+            position: relative;
+            margin: 20px 0;
             overflow: hidden;
+        }
+        
+        .boat {
+            position: absolute;
+            font-size: 24px;
+            transition: all 1s ease;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .boat-player {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(-50%); }
+            40% { transform: translateY(-60%); }
+            60% { transform: translateY(-55%); }
         }
         
         .finish-line {
@@ -282,1240 +149,1092 @@
             right: 0;
             top: 0;
             bottom: 0;
-            width: 8px;
+            width: 4px;
             background: #dc2626;
-            opacity: 0.7;
         }
         
-        .racer {
-            position: absolute;
-            transition: all 1s ease-out;
-            transform: translateX(-50%);
+        .slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #d1d5db;
+            outline: none;
+            -webkit-appearance: none;
         }
         
-        .animate-bounce {
-            animation: bounce 1s infinite;
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
         }
         
-        @keyframes bounce {
-            0%, 20%, 53%, 80%, 100% {
-                transform: translateY(0) translateX(-50%);
-            }
-            40%, 43% {
-                transform: translateY(-10px) translateX(-50%);
-            }
-            70% {
-                transform: translateY(-5px) translateX(-50%);
-            }
+        .optimum { color: #10b981; font-weight: bold; }
+        .not-optimum { color: #ef4444; font-weight: bold; }
+        
+        .championship-info {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
         }
         
-        .animate-pulse {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        .upgrade-item {
+            background: #f9fafb;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 8px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: .5;
-            }
+        .sponsor-item {
+            background: #fdf4ff;
+            border: 1px solid #c084fc;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 8px 0;
         }
         
-        .status-bar {
+        .race-status {
             background: #10b981;
             color: white;
             padding: 12px;
             border-radius: 8px;
             margin-bottom: 16px;
+            animation: pulse 2s infinite;
         }
         
-        .upgrade-section {
-            background: #eff6ff;
-            border: 2px solid #bfdbfe;
-            padding: 16px;
-            border-radius: 8px;
-        }
-        
-        .championship-active {
-            background: #fef3c7;
-            padding: 16px;
-            border-radius: 8px;
-            margin-bottom: 24px;
-        }
-        
-        .championship-item {
-            background: #f3f4f6;
-            padding: 24px;
-            border-radius: 8px;
-        }
-        
-        .position-1 {
-            background: #f59e0b;
-            color: white;
-        }
-        
-        .position-2 {
-            background: #9ca3af;
-            color: white;
-        }
-        
-        .position-3 {
-            background: #ea580c;
-            color: white;
-        }
-        
-        .position-other {
-            background: #6b7280;
-            color: white;
-        }
-        
-        .progress-indicators {
-            position: absolute;
-            bottom: 8px;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: #6b7280;
-            padding: 0 8px;
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
         }
     </style>
 </head>
 <body>
-    <div id="app"></div>
-    
+    <div class="container">
+        <!-- Menu Principal -->
+        <div id="menu" class="screen">
+            <h1 class="text-3xl font-bold text-white text-center mb-6">🏁 Course de Voilier 🏁</h1>
+            
+            <!-- Statut de course en cours -->
+            <div id="race-status" class="race-status hidden">
+                <div class="text-center">
+                    <strong>Course en cours !</strong><br>
+                    Position: <span id="current-position">1</span>/8 - 
+                    Temps restant: <span id="time-remaining">0</span>
+                    <button class="btn btn-green" onclick="showScreen('race')">Retour à la course</button>
+                </div>
+            </div>
+            
+            <!-- Stats du joueur -->
+            <div class="card">
+                <div class="grid grid-3">
+                    <div class="stat-card stat-green">
+                        <div class="font-bold">Argent</div>
+                        <div class="text-2xl" id="player-money">25,000€</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="font-bold">XP</div>
+                        <div class="text-2xl" id="player-xp">0</div>
+                    </div>
+                    <div class="stat-card stat-purple">
+                        <div class="font-bold">Niveau</div>
+                        <div class="text-2xl" id="player-level">1</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Menu principal -->
+            <div class="card">
+                <div class="grid grid-5">
+                    <button class="btn btn-green" onclick="showScreen('race-setup')">
+                        🏁<br>Course Libre
+                    </button>
+                    <button class="btn btn-yellow" onclick="showScreen('championships')">
+                        🏆<br>Championnats
+                    </button>
+                    <button class="btn btn-orange" onclick="showScreen('shop')">
+                        🛒<br>Boutique
+                    </button>
+                    <button class="btn btn-purple" onclick="showScreen('sponsors')">
+                        🤝<br>Sponsors
+                    </button>
+                    <button class="btn" onclick="showScreen('history')">
+                        📊<br>Historique
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Configuration de course -->
+        <div id="race-setup" class="screen hidden">
+            <button class="btn" onclick="showScreen('menu')">← Retour</button>
+            <div class="card">
+                <h2 class="text-2xl font-bold text-center mb-4">Configuration de Course</h2>
+                
+                <div class="mb-6">
+                    <h3 class="font-bold mb-4">Difficulté des adversaires</h3>
+                    <div class="grid grid-3">
+                        <button class="btn" id="diff-debutant" onclick="setDifficulty('debutant')">Débutant</button>
+                        <button class="btn" id="diff-intermediaire" onclick="setDifficulty('intermediaire')">Intermédiaire</button>
+                        <button class="btn" id="diff-expert" onclick="setDifficulty('expert')">Expert</button>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <h3 class="font-bold mb-4">Durée de la course: <span id="duration-display">5 minutes</span></h3>
+                    <input type="range" id="duration-slider" class="slider" min="1" max="10080" value="5" onchange="updateDuration()">
+                    <div class="grid grid-5 text-center text-sm mt-2">
+                        <span>1 min</span>
+                        <span>1 heure</span>
+                        <span>12 heures</span>
+                        <span>3 jours</span>
+                        <span>7 jours</span>
+                    </div>
+                </div>
+                
+                <button class="btn btn-green text-xl" style="width: 100%; padding: 16px;" onclick="startRace()" id="start-race-btn">
+                    Commencer la Course
+                </button>
+            </div>
+        </div>
+        
+        <!-- Écran de course -->
+        <div id="race" class="screen hidden">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <button class="btn" onclick="showScreen('menu')">← Menu</button>
+                <h2 class="text-2xl font-bold text-white">Course en Direct</h2>
+                <div style="width: 80px;"></div>
+            </div>
+            
+            <div class="card">
+                <!-- Stats de course -->
+                <div class="grid grid-4 mb-6">
+                    <div class="stat-card">
+                        <div class="font-bold">Position</div>
+                        <div class="text-2xl" id="race-position">1/8</div>
+                    </div>
+                    <div class="stat-card stat-green">
+                        <div class="font-bold">Temps Restant</div>
+                        <div class="text-xl" id="race-time">5:00</div>
+                    </div>
+                    <div class="stat-card stat-yellow">
+                        <div class="font-bold">Météo</div>
+                        <div id="weather">🌊 Normal</div>
+                    </div>
+                    <div class="stat-card stat-purple">
+                        <div class="font-bold">Progrès</div>
+                        <div class="text-xl" id="race-progress">0%</div>
+                    </div>
+                </div>
+                
+                <!-- Info championnat -->
+                <div id="championship-info" class="championship-info hidden">
+                    <strong>Championnat en cours</strong> - Course <span id="champ-race-num">1</span>/20 - 
+                    Points: <span id="champ-points">0</span>
+                </div>
+                
+                <!-- Contrôle des voiles -->
+                <div class="mb-6">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <span class="font-bold">Réglage des Voiles: <span id="sail-value">50</span>%</span>
+                        <span id="sail-status" class="optimum">OPTIMUM</span>
+                    </div>
+                    <input type="range" id="sail-slider" class="slider" min="0" max="100" value="50" 
+                           onchange="updateSails()" disabled>
+                </div>
+                
+                <!-- Pilote automatique -->
+                <div class="mb-6">
+                    <button class="btn btn-green" id="autopilot-btn" onclick="toggleAutopilot()">
+                        🤖 Pilote Auto: ON
+                    </button>
+                    <span id="autopilot-efficiency" class="ml-4">Efficacité: 80%</span>
+                </div>
+                
+                <!-- Visualisation de la course -->
+                <div class="race-track" id="race-track">
+                    <div class="finish-line"></div>
+                    <div style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); 
+                                color: white; font-weight: bold; font-size: 12px;">ARRIVÉE</div>
+                    
+                    <!-- Les bateaux seront ajoutés dynamiquement ici -->
+                </div>
+                
+                <!-- Classement -->
+                <div>
+                    <h3 class="font-bold mb-4">Classement en Direct</h3>
+                    <div id="race-ranking"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Championnats -->
+        <div id="championships" class="screen hidden">
+            <button class="btn" onclick="showScreen('menu')">← Retour</button>
+            <div class="card">
+                <h2 class="text-2xl font-bold text-center mb-4">🏆 Championnats</h2>
+                
+                <!-- Championnat en cours -->
+                <div id="active-championship" class="championship-info hidden">
+                    <h3 class="font-bold">Championnat en cours: <span id="active-champ-name"></span></h3>
+                    <div class="grid grid-3 mt-4">
+                        <div class="text-center">
+                            <div class="font-bold">Course</div>
+                            <div class="text-xl" id="champ-current-race">1/20</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-bold">Vos Points</div>
+                            <div class="text-xl" id="champ-your-points">0</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-bold">Position</div>
+                            <div class="text-xl" id="champ-your-position">1er</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Liste des championnats -->
+                <div id="championships-list">
+                    <!-- Les championnats seront ajoutés dynamiquement -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Boutique -->
+        <div id="shop" class="screen hidden">
+            <button class="btn" onclick="showScreen('menu')">← Retour</button>
+            <div class="card">
+                <h2 class="text-2xl font-bold text-center mb-4">🛒 Boutique</h2>
+                <p class="text-center mb-6">Argent disponible: <span id="shop-money">25,000€</span></p>
+                
+                <!-- Améliorations du bateau -->
+                <h3 class="font-bold mb-4">Améliorations du Bateau</h3>
+                <div id="boat-upgrades">
+                    <!-- Les améliorations seront ajoutées dynamiquement -->
+                </div>
+                
+                <!-- Pilote automatique -->
+                <h3 class="font-bold mb-4 mt-6">🤖 Pilote Automatique</h3>
+                <div id="autopilot-upgrades">
+                    <!-- Les améliorations du pilote automatique seront ajoutées dynamiquement -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sponsors -->
+        <div id="sponsors" class="screen hidden">
+            <button class="btn" onclick="showScreen('menu')">← Retour</button>
+            <div class="card">
+                <h2 class="text-2xl font-bold text-center mb-4">🤝 Sponsors</h2>
+                <div id="sponsors-list">
+                    <!-- Les sponsors seront ajoutés dynamiquement -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Historique -->
+        <div id="history" class="screen hidden">
+            <button class="btn" onclick="showScreen('menu')">← Retour</button>
+            <div class="card">
+                <h2 class="text-2xl font-bold text-center mb-4">📊 Historique</h2>
+                
+                <h3 class="font-bold mb-4">Dernières Courses</h3>
+                <div id="race-history">
+                    <p class="text-center" style="color: #6b7280;">Aucune course terminée</p>
+                </div>
+                
+                <h3 class="font-bold mb-4 mt-6">Championnats Terminés</h3>
+                <div id="championship-history">
+                    <p class="text-center" style="color: #6b7280;">Aucun championnat terminé</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Variables globales
-        let gameData = {};
-        let championshipState = {};
-        let raceState = {};
-        let raceSettings = {};
-        let currentScreen = 'menu';
+        // Variables globales du jeu
+        let gameData = {
+            money: 25000,
+            xp: 0,
+            level: 1,
+            boat: {
+                speed: 10,
+                handling: 10,
+                endurance: 10
+            },
+            autopilot: {
+                level: 1,
+                name: "Basic",
+                efficiency: 0.8
+            },
+            sponsors: [],
+            raceHistory: [],
+            championships: [],
+            unlockedChampionships: ['amateur']
+        };
+        
+        let raceState = {
+            isRacing: false,
+            isAutopilot: true,
+            sailTrim: 50,
+            position: 1,
+            progress: 0,
+            competitors: [],
+            timeLeft: 0,
+            weather: 'normal',
+            difficulty: 'debutant',
+            duration: 5 // en minutes
+        };
+        
+        let championshipState = {
+            isActive: false,
+            currentRace: 0,
+            totalRaces: 20,
+            playerPoints: 0,
+            standings: [],
+            championshipData: null
+        };
+        
         let raceInterval = null;
         
-        // Niveaux de pilote automatique
+        // Données statiques
         const autopilotLevels = [
-            { level: 1, name: "Basic", efficiency: 0.8, cost: 0, description: "Réglage fixe à 50%" },
-            { level: 2, name: "Avancé", efficiency: 0.9, cost: 5000, description: "Adaptation lente aux conditions" },
-            { level: 3, name: "Expert", efficiency: 0.95, cost: 15000, description: "Réaction rapide aux changements" },
-            { level: 4, name: "IA Elite", efficiency: 0.98, cost: 50000, description: "Optimisation parfaite temps réel" }
+            { level: 1, name: "Basic", efficiency: 0.8, cost: 0 },
+            { level: 2, name: "Avancé", efficiency: 0.9, cost: 5000 },
+            { level: 3, name: "Expert", efficiency: 0.95, cost: 15000 },
+            { level: 4, name: "IA Elite", efficiency: 0.98, cost: 50000 }
         ];
         
-        // Championnats disponibles
-        const availableChampionships = [
-            { 
-                id: 'amateur', 
-                name: 'Championnat Amateur', 
-                cost: 0, 
-                requirement: 1, 
-                difficulty: 'debutant',
-                prize1: 50000,
-                prize2: 25000,
-                prize3: 10000
-            },
-            { 
-                id: 'pro', 
-                name: 'Championnat Pro', 
-                cost: 15000, 
-                requirement: 5, 
-                difficulty: 'intermediaire',
-                prize1: 100000,
-                prize2: 50000,
-                prize3: 25000
-            },
-            { 
-                id: 'elite', 
-                name: 'Championnat Elite', 
-                cost: 50000, 
-                requirement: 15, 
-                difficulty: 'expert',
-                prize1: 250000,
-                prize2: 125000,
-                prize3: 60000
-            }
+        const championships = [
+            { id: 'amateur', name: 'Championnat Amateur', cost: 0, requirement: 1, difficulty: 'debutant', 
+              prize1: 50000, prize2: 25000, prize3: 10000 },
+            { id: 'pro', name: 'Championnat Pro', cost: 15000, requirement: 5, difficulty: 'intermediaire',
+              prize1: 100000, prize2: 50000, prize3: 25000 },
+            { id: 'elite', name: 'Championnat Elite', cost: 50000, requirement: 15, difficulty: 'expert',
+              prize1: 250000, prize2: 125000, prize3: 60000 }
         ];
         
-        // Sponsors disponibles
-        const availableSponsors = [
+        const sponsors = [
             { name: "Marine Pro", bonus: 1000, requirement: 5 },
             { name: "Ocean Master", bonus: 2500, requirement: 10 },
             { name: "Sailing Elite", bonus: 5000, requirement: 20 }
         ];
         
-        // Fonction de sauvegarde
-        function saveGameData(data) {
+        // Sauvegarde et chargement
+        function saveGame() {
             try {
-                localStorage.setItem('sailingChampionshipGame', JSON.stringify(data));
+                const saveData = {
+                    gameData: gameData,
+                    championshipState: championshipState
+                };
+                localStorage.setItem('sailingGame', JSON.stringify(saveData));
             } catch (error) {
-                console.warn('Sauvegarde impossible:', error);
+                console.warn('Erreur sauvegarde:', error);
             }
         }
         
-        // Fonction de chargement
-        function loadGameData() {
+        function loadGame() {
             try {
-                const saved = localStorage.getItem('sailingChampionshipGame');
+                const saved = localStorage.getItem('sailingGame');
                 if (saved) {
-                    return JSON.parse(saved);
+                    const saveData = JSON.parse(saved);
+                    gameData = { ...gameData, ...saveData.gameData };
+                    championshipState = { ...championshipState, ...saveData.championshipState };
                 }
             } catch (error) {
-                console.warn('Chargement impossible:', error);
-            }
-            return null;
-        }
-        
-        // Initialisation du jeu
-        function initGame() {
-            const savedData = loadGameData();
-            
-            gameData = savedData || {
-                money: 25000,
-                xp: 0,
-                level: 1,
-                boat: {
-                    name: "Mon Voilier",
-                    speed: 10,
-                    handling: 10,
-                    endurance: 10
-                },
-                autopilot: {
-                    level: 1,
-                    name: "Basic"
-                },
-                sponsors: [],
-                raceHistory: [],
-                championships: [],
-                unlockedChampionships: ['amateur']
-            };
-            
-            championshipState = savedData?.championshipState || {
-                isActive: false,
-                currentRace: 0,
-                totalRaces: 20,
-                level: 'amateur',
-                standings: [],
-                playerPoints: 0,
-                championshipData: null,
-                raceDuration: 300
-            };
-            
-            raceSettings = {
-                difficulty: 'debutant',
-                duration: 60
-            };
-            
-            raceState = {
-                isRacing: false,
-                isAutoPilot: true,
-                sailTrim: 50,
-                position: 1,
-                progress: 0,
-                competitors: [],
-                timeLeft: 0,
-                weatherConditions: 'normal'
-            };
-            
-            renderScreen();
-        }
-        
-        // Sauvegarder automatiquement
-        function autoSave() {
-            const dataToSave = {
-                ...gameData,
-                championshipState: championshipState
-            };
-            saveGameData(dataToSave);
-        }
-        
-        // Améliorer le pilote automatique
-        function upgradeAutopilot(cost, newLevel) {
-            if (gameData.money >= cost) {
-                const newAutopilotData = autopilotLevels.find(ap => ap.level === newLevel);
-                gameData.money -= cost;
-                gameData.autopilot = {
-                    level: newLevel,
-                    name: newAutopilotData.name
-                };
-                autoSave();
-                renderScreen();
+                console.warn('Erreur chargement:', error);
             }
         }
         
-        // Déverrouiller un championnat
-        function unlockChampionship(championshipId, cost) {
-            if (gameData.money >= cost) {
-                gameData.money -= cost;
-                gameData.unlockedChampionships.push(championshipId);
-                autoSave();
-                renderScreen();
+        // Fonctions d'affichage
+        function showScreen(screenName) {
+            // Cacher tous les écrans
+            const screens = document.querySelectorAll('.screen');
+            screens.forEach(screen => screen.classList.add('hidden'));
+            
+            // Afficher l'écran demandé
+            document.getElementById(screenName).classList.remove('hidden');
+            
+            // Mettre à jour l'affichage selon l'écran
+            updateDisplay();
+        }
+        
+        function updateDisplay() {
+            // Mettre à jour les stats du joueur
+            document.getElementById('player-money').textContent = formatMoney(gameData.money);
+            document.getElementById('player-xp').textContent = gameData.xp;
+            document.getElementById('player-level').textContent = gameData.level;
+            document.getElementById('shop-money').textContent = formatMoney(gameData.money);
+            
+            // Mettre à jour le statut de course
+            updateRaceStatus();
+            
+            // Mettre à jour les boutons de difficulté
+            updateDifficultyButtons();
+            
+            // Mettre à jour les listes (boutique, sponsors, etc.)
+            updateShop();
+            updateSponsors();
+            updateChampionships();
+            updateHistory();
+        }
+        
+        function updateRaceStatus() {
+            const statusDiv = document.getElementById('race-status');
+            if (raceState.isRacing) {
+                statusDiv.classList.remove('hidden');
+                document.getElementById('current-position').textContent = raceState.position;
+                document.getElementById('time-remaining').textContent = formatTime(raceState.timeLeft);
+            } else {
+                statusDiv.classList.add('hidden');
             }
         }
         
-        // Améliorer le bateau
-        function upgradeBoat(stat, cost) {
-            if (gameData.money >= cost) {
-                gameData.money -= cost;
-                gameData.boat[stat] += 1;
-                autoSave();
-                renderScreen();
-            }
+        function updateDifficultyButtons() {
+            ['debutant', 'intermediaire', 'expert'].forEach(diff => {
+                const btn = document.getElementById('diff-' + diff);
+                if (raceState.difficulty === diff) {
+                    btn.classList.add('btn-green');
+                    btn.classList.remove('btn');
+                } else {
+                    btn.classList.add('btn');
+                    btn.classList.remove('btn-green');
+                }
+            });
         }
         
-        // Générer des concurrents
-        function generateCompetitors(difficulty) {
-            const baseSpeed = difficulty === 'debutant' ? 8 : difficulty === 'intermediaire' ? 12 : 16;
-            const competitors = [];
+        // Configuration de course
+        function setDifficulty(difficulty) {
+            raceState.difficulty = difficulty;
+            updateDifficultyButtons();
+        }
+        
+        function updateDuration() {
+            const slider = document.getElementById('duration-slider');
+            const value = parseInt(slider.value);
+            raceState.duration = value;
+            
+            let displayText;
+            if (value < 60) {
+                displayText = value + ' minute' + (value > 1 ? 's' : '');
+            } else if (value < 1440) {
+                const hours = Math.floor(value / 60);
+                displayText = hours + ' heure' + (hours > 1 ? 's' : '');
+            } else {
+                const days = Math.floor(value / 1440);
+                displayText = days + ' jour' + (days > 1 ? 's' : '');
+            }
+            
+            document.getElementById('duration-display').textContent = displayText;
+        }
+        
+        // Démarrage de course
+        function startRace() {
+            if (raceState.isRacing) return;
+            
+            raceState.isRacing = true;
+            raceState.timeLeft = raceState.duration * 60; // Convertir en secondes
+            raceState.progress = 0;
+            raceState.position = 1;
+            raceState.sailTrim = 50;
+            raceState.weather = ['calme', 'normal', 'venteux'][Math.floor(Math.random() * 3)];
+            
+            // Générer les adversaires
+            generateCompetitors();
+            
+            // Aller à l'écran de course
+            showScreen('race');
+            
+            // Démarrer la boucle de course
+            startRaceLoop();
+        }
+        
+        function generateCompetitors() {
+            raceState.competitors = [];
+            const baseSpeed = raceState.difficulty === 'debutant' ? 8 : 
+                             raceState.difficulty === 'intermediaire' ? 12 : 16;
+            
             for (let i = 0; i < 7; i++) {
-                competitors.push({
+                raceState.competitors.push({
                     id: i,
-                    name: `Concurrent ${i + 1}`,
+                    name: 'Adversaire ' + (i + 1),
                     speed: baseSpeed + Math.random() * 4,
                     progress: 0
                 });
             }
-            return competitors;
         }
         
-        // Commencer une course
-        function startRace() {
-            if (championshipState.isActive && championshipState.currentRace <= 20) {
-                startChampionshipRace(championshipState.level, championshipState.standings, championshipState.raceDuration);
-                return;
-            }
-            
-            const competitors = generateCompetitors(raceSettings.difficulty);
-            raceState = {
-                isRacing: true,
-                isAutoPilot: true,
-                sailTrim: 50,
-                position: 1,
-                progress: 0,
-                competitors,
-                timeLeft: raceSettings.duration,
-                weatherConditions: ['calme', 'normal', 'venteux'][Math.floor(Math.random() * 3)]
-            };
-            currentScreen = 'race';
-            renderScreen();
-            startRaceLoop();
-        }
-        
-        // Commencer un championnat
-        function startChampionship(championship, raceDuration = 300) {
-            const championshipCompetitors = [];
-            for (let i = 0; i < 7; i++) {
-                const baseSpeed = championship.difficulty === 'debutant' ? 8 : 
-                                 championship.difficulty === 'intermediaire' ? 12 : 16;
-                championshipCompetitors.push({
-                    id: i,
-                    name: `Pilote ${String.fromCharCode(65 + i)}`,
-                    speed: baseSpeed + Math.random() * 2,
-                    totalPoints: 0
-                });
-            }
-            
-            championshipState = {
-                isActive: true,
-                currentRace: 1,
-                totalRaces: 20,
-                level: championship.difficulty,
-                standings: championshipCompetitors,
-                playerPoints: 0,
-                championshipData: championship,
-                raceDuration: raceDuration
-            };
-            
-            autoSave();
-            startChampionshipRace(championship.difficulty, championshipCompetitors, raceDuration);
-        }
-        
-        // Commencer une course de championnat
-        function startChampionshipRace(difficulty, competitors, duration = 300) {
-            raceSettings = { difficulty, duration };
-            const raceCompetitors = competitors.map(comp => ({
-                ...comp,
-                progress: 0
-            }));
-            
-            raceState = {
-                isRacing: true,
-                isAutoPilot: true,
-                sailTrim: 50,
-                position: 1,
-                progress: 0,
-                competitors: raceCompetitors,
-                timeLeft: duration,
-                weatherConditions: ['calme', 'normal', 'venteux'][Math.floor(Math.random() * 3)]
-            };
-            currentScreen = 'race';
-            renderScreen();
-            startRaceLoop();
-        }
-        
-        // Boucle de course
         function startRaceLoop() {
             if (raceInterval) clearInterval(raceInterval);
             
             raceInterval = setInterval(() => {
                 if (!raceState.isRacing) {
                     clearInterval(raceInterval);
-                    raceInterval = null;
                     return;
                 }
                 
-                updateRace();
-                updateRaceDisplay(); // Mettre à jour l'affichage pendant la course
+                updateRaceStep();
+                updateRaceDisplay();
+                
+                // Vérifier fin de course
+                if (raceState.timeLeft <= 0 || raceState.progress >= 100) {
+                    finishRace();
+                }
+                
             }, 1000);
         }
         
-        // Mise à jour de la course
-        function updateRace() {
-            // Pilote automatique intelligent
-            if (raceState.isAutoPilot) {
-                const currentAutopilot = autopilotLevels.find(ap => ap.level === gameData.autopilot.level);
+        function updateRaceStep() {
+            raceState.timeLeft--;
+            
+            // Pilote automatique
+            if (raceState.isAutopilot) {
+                const autopilot = autopilotLevels.find(a => a.level === gameData.autopilot.level);
                 let targetTrim = 50;
                 
-                if (currentAutopilot.level >= 2) {
-                    if (raceState.weatherConditions === 'calme') targetTrim = 40;
-                    else if (raceState.weatherConditions === 'venteux') targetTrim = 60;
-                    
-                    if (currentAutopilot.level >= 3) {
-                        targetTrim += (Math.random() - 0.5) * 10;
-                        targetTrim = Math.max(20, Math.min(80, targetTrim));
-                    }
-                    
-                    if (currentAutopilot.level >= 4) {
-                        targetTrim = 50 + (Math.sin(Date.now() / 10000) * 15);
-                    }
-                }
+                if (raceState.weather === 'calme') targetTrim = 40;
+                else if (raceState.weather === 'venteux') targetTrim = 60;
                 
-                const changeSpeed = currentAutopilot.level >= 4 ? 1 : 0.1;
-                const newTrim = raceState.sailTrim + (targetTrim - raceState.sailTrim) * changeSpeed;
-                
-                if (Math.abs(newTrim - raceState.sailTrim) > 0.5) {
-                    raceState.sailTrim = Math.round(newTrim);
-                    return;
-                }
+                raceState.sailTrim = targetTrim;
             }
             
-            if (raceState.timeLeft <= 0 || raceState.progress >= 100) {
-                finishRace();
-                return;
-            }
-            
-            // Calculs de vitesse et progression
-            const weatherMultiplier = raceState.weatherConditions === 'calme' ? 0.8 : 
-                                     raceState.weatherConditions === 'venteux' ? 1.2 : 1.0;
+            // Calcul progression joueur
+            const weatherMultiplier = raceState.weather === 'calme' ? 0.8 : 
+                                     raceState.weather === 'venteux' ? 1.2 : 1.0;
             
             let trimEfficiency = 1 - Math.abs(50 - raceState.sailTrim) / 100;
-            if (raceState.isAutoPilot) {
-                const currentAutopilot = autopilotLevels.find(ap => ap.level === gameData.autopilot.level);
-                trimEfficiency = Math.max(trimEfficiency, currentAutopilot.efficiency);
+            if (raceState.isAutopilot) {
+                const autopilot = autopilotLevels.find(a => a.level === gameData.autopilot.level);
+                trimEfficiency = Math.max(trimEfficiency, autopilot.efficiency);
             }
             
-            const baseProgressPerSecond = 100 / raceSettings.duration;
-            const playerSpeedMultiplier = (gameData.boat.speed / 10) * weatherMultiplier * trimEfficiency;
-            const playerProgressGain = baseProgressPerSecond * playerSpeedMultiplier;
+            const baseProgress = 100 / (raceState.duration * 60);
+            const playerSpeed = (gameData.boat.speed / 10) * weatherMultiplier * trimEfficiency;
+            raceState.progress = Math.min(raceState.progress + baseProgress * playerSpeed, 100);
             
-            raceState.progress = Math.min(raceState.progress + playerProgressGain, 100);
-            
-            // Mise à jour des concurrents
-            raceState.competitors = raceState.competitors.map(comp => {
-                const competitorSpeedMultiplier = (comp.speed / 10) * (0.9 + Math.random() * 0.2);
-                const competitorProgressGain = baseProgressPerSecond * competitorSpeedMultiplier;
-                return {
-                    ...comp,
-                    progress: Math.min(comp.progress + competitorProgressGain, 100)
-                };
+            // Progression adversaires
+            raceState.competitors.forEach(comp => {
+                const compSpeed = (comp.speed / 10) * (0.9 + Math.random() * 0.2);
+                comp.progress = Math.min(comp.progress + baseProgress * compSpeed, 100);
             });
             
-            // Calcul de la position
-            const allRacers = [{ progress: raceState.progress, isPlayer: true }, ...raceState.competitors];
+            // Calcul position
+            const allRacers = [
+                { progress: raceState.progress, isPlayer: true },
+                ...raceState.competitors
+            ];
             allRacers.sort((a, b) => b.progress - a.progress);
-            raceState.position = allRacers.findIndex(racer => racer.isPlayer) + 1;
-            
-            raceState.timeLeft--;
+            raceState.position = allRacers.findIndex(r => r.isPlayer) + 1;
         }
         
-        // Fin de course
-        function finishRace() {
-            if (raceInterval) {
-                clearInterval(raceInterval);
-                raceInterval = null;
+        function updateRaceDisplay() {
+            document.getElementById('race-position').textContent = raceState.position + '/8';
+            document.getElementById('race-time').textContent = formatTime(raceState.timeLeft);
+            document.getElementById('race-progress').textContent = Math.round(raceState.progress) + '%';
+            document.getElementById('sail-value').textContent = raceState.sailTrim;
+            
+            // Météo
+            const weatherIcons = { calme: '😴', normal: '🌊', venteux: '💨' };
+            document.getElementById('weather').textContent = 
+                weatherIcons[raceState.weather] + ' ' + raceState.weather.charAt(0).toUpperCase() + raceState.weather.slice(1);
+            
+            // Statut des voiles
+            const sailStatus = document.getElementById('sail-status');
+            if (Math.abs(50 - raceState.sailTrim) < 10) {
+                sailStatus.textContent = 'OPTIMUM';
+                sailStatus.className = 'optimum';
+            } else {
+                sailStatus.textContent = 'À AJUSTER';
+                sailStatus.className = 'not-optimum';
             }
             
-            raceState.isRacing = false;
-            const finalPosition = raceState.position;
-            const isWinner = raceState.progress >= 100 && raceState.position === 1;
+            // Mettre à jour le slider des voiles
+            document.getElementById('sail-slider').value = raceState.sailTrim;
             
-            const points = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1][finalPosition - 1] || 0;
-            let prize, xpGained;
+            // Mettre à jour la visualisation de la course
+            updateRaceVisualization();
+            updateRanking();
+        }
+        
+        function updateRaceVisualization() {
+            const track = document.getElementById('race-track');
+            
+            // Nettoyer les bateaux existants
+            const existingBoats = track.querySelectorAll('.boat');
+            existingBoats.forEach(boat => boat.remove());
+            
+            // Ajouter le bateau du joueur
+            const playerBoat = document.createElement('div');
+            playerBoat.className = 'boat boat-player';
+            playerBoat.innerHTML = '⛵';
+            playerBoat.style.left = Math.min(raceState.progress, 95) + '%';
+            playerBoat.style.top = '20px';
+            track.appendChild(playerBoat);
+            
+            // Ajouter les bateaux adversaires
+            raceState.competitors.forEach((comp, index) => {
+                const boat = document.createElement('div');
+                boat.className = 'boat';
+                boat.innerHTML = '🚤';
+                boat.style.left = Math.min(comp.progress, 95) + '%';
+                boat.style.top = (40 + index * 8) + 'px';
+                track.appendChild(boat);
+            });
+        }
+        
+        function updateRanking() {
+            const rankingDiv = document.getElementById('race-ranking');
+            const allRacers = [
+                { name: 'Vous', progress: raceState.progress, isPlayer: true },
+                ...raceState.competitors
+            ];
+            allRacers.sort((a, b) => b.progress - a.progress);
+            
+            let html = '';
+            allRacers.forEach((racer, index) => {
+                const position = index + 1;
+                const medal = position === 1 ? '🥇' : position === 2 ? '🥈' : position === 3 ? '🥉' : position;
+                const playerClass = racer.isPlayer ? 'font-bold' : '';
+                const bgColor = racer.isPlayer ? 'background: #dbeafe;' : 'background: #f9fafb;';
+                
+                html += `
+                    <div style="display: flex; justify-content: space-between; align-items: center; 
+                                padding: 8px; margin: 4px 0; border-radius: 6px; ${bgColor}">
+                        <span class="${playerClass}">
+                            ${medal} ${racer.name}
+                        </span>
+                        <span class="${playerClass}">${Math.round(racer.progress)}%</span>
+                    </div>
+                `;
+            });
+            rankingDiv.innerHTML = html;
+        }
+        
+        function toggleAutopilot() {
+            raceState.isAutopilot = !raceState.isAutopilot;
+            const btn = document.getElementById('autopilot-btn');
+            const slider = document.getElementById('sail-slider');
+            
+            if (raceState.isAutopilot) {
+                btn.textContent = '🤖 Pilote Auto: ON';
+                btn.className = 'btn btn-green';
+                slider.disabled = true;
+            } else {
+                btn.textContent = '🤖 Pilote Auto: OFF';
+                btn.className = 'btn';
+                slider.disabled = false;
+            }
+            
+            // Mettre à jour l'efficacité
+            const autopilot = autopilotLevels.find(a => a.level === gameData.autopilot.level);
+            document.getElementById('autopilot-efficiency').textContent = 
+                'Efficacité: ' + Math.round(autopilot.efficiency * 100) + '%';
+        }
+        
+        function updateSails() {
+            if (!raceState.isAutopilot) {
+                raceState.sailTrim = parseInt(document.getElementById('sail-slider').value);
+                document.getElementById('sail-value').textContent = raceState.sailTrim;
+            }
+        }
+        
+        function finishRace() {
+            raceState.isRacing = false;
+            clearInterval(raceInterval);
+            
+            const position = raceState.position;
+            const isWinner = raceState.progress >= 100 && position === 1;
+            
+            // Calcul des récompenses
+            let prize = 0;
+            let xp = 0;
             
             if (championshipState.isActive) {
-                prize = Math.max(1000, 500 * (9 - finalPosition));
-                xpGained = Math.max(25, 100 - finalPosition * 10);
-                
-                // Mise à jour des points du championnat
-                championshipState.standings = championshipState.standings.map(comp => {
-                    const compPosition = raceState.competitors.findIndex(c => c.id === comp.id) + 2;
-                    const compPoints = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1][compPosition - 1] || 0;
-                    return {
-                        ...comp,
-                        totalPoints: comp.totalPoints + compPoints
-                    };
-                });
-                
+                // Course de championnat
+                const points = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1][position - 1] || 0;
                 championshipState.playerPoints += points;
                 championshipState.currentRace++;
                 
-                // Vérifier si le championnat est terminé
+                prize = Math.max(1000, 500 * (9 - position));
+                xp = Math.max(25, 100 - position * 10);
+                
+                // Vérifier fin de championnat
                 if (championshipState.currentRace > 20) {
-                    const allStandings = [
-                        { name: "Vous", totalPoints: championshipState.playerPoints, isPlayer: true },
-                        ...championshipState.standings
-                    ].sort((a, b) => b.totalPoints - a.totalPoints);
-                    
-                    const playerFinalPosition = allStandings.findIndex(s => s.isPlayer) + 1;
-                    let championshipPrize = 0;
-                    
-                    if (playerFinalPosition === 1) championshipPrize = championshipState.championshipData.prize1;
-                    else if (playerFinalPosition === 2) championshipPrize = championshipState.championshipData.prize2;
-                    else if (playerFinalPosition === 3) championshipPrize = championshipState.championshipData.prize3;
-                    
-                    gameData.money += prize + championshipPrize;
-                    gameData.xp += xpGained + (playerFinalPosition <= 3 ? 500 : 100);
-                    gameData.level = Math.floor((gameData.xp) / 100) + 1;
-                    gameData.raceHistory.push({
-                        date: new Date().toLocaleDateString(),
-                        position: finalPosition,
-                        prize: prize + championshipPrize,
-                        xp: xpGained + (playerFinalPosition <= 3 ? 500 : 100),
-                        difficulty: raceSettings.difficulty,
-                        type: `Championnat ${championshipState.championshipData.name} - Position finale: ${playerFinalPosition}`
-                    });
-                    gameData.championships.push({
-                        name: championshipState.championshipData.name,
-                        date: new Date().toLocaleDateString(),
-                        position: playerFinalPosition,
-                        points: championshipState.playerPoints,
-                        prize: championshipPrize
-                    });
-                    
-                    championshipState.isActive = false;
+                    finishChampionship();
                 }
             } else {
-                prize = isWinner ? 8000 : finalPosition === 1 ? 5000 : finalPosition <= 3 ? 2000 : 1000;
-                xpGained = isWinner ? 150 : finalPosition === 1 ? 100 : finalPosition <= 3 ? 50 : 25;
-                
-                gameData.money += prize;
-                gameData.xp += xpGained;
-                gameData.level = Math.floor(gameData.xp / 100) + 1;
-                gameData.raceHistory.push({
-                    date: new Date().toLocaleDateString(),
-                    position: finalPosition,
-                    prize,
-                    xp: xpGained,
-                    difficulty: raceSettings.difficulty,
-                    type: 'Course libre'
-                });
+                // Course libre
+                prize = isWinner ? 8000 : position <= 3 ? 3000 : 1000;
+                xp = isWinner ? 150 : position <= 3 ? 75 : 25;
             }
             
-            autoSave();
-            renderScreen();
-        }
-        
-        // Signer un contrat de sponsor
-        function signSponsor(sponsor) {
-            gameData.money += sponsor.bonus;
-            gameData.sponsors.push(sponsor.name);
-            autoSave();
-            renderScreen();
-        }
-        
-        // Formatage des nombres
-        function formatNumber(num) {
-            return num.toLocaleString();
-        }
-        
-        // Formatage du temps
-        function formatTime(seconds) {
-            const minutes = Math.floor(seconds / 60);
-            const remainingSeconds = seconds % 60;
-            return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
-        }
-        
-        // Barre de statut de course
-        function renderRaceStatusBar() {
-            if (!raceState.isRacing) return '';
+            // Appliquer les récompenses
+            gameData.money += prize;
+            gameData.xp += xp;
+            gameData.level = Math.floor(gameData.xp / 100) + 1;
             
-            return `
-                <div class="status-bar animate-pulse">
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center gap-3">
-                            <span style="font-size: 1.5rem;">🏁</span>
-                            <div>
-                                <div class="font-bold">Course en cours !</div>
-                                <div style="font-size: 0.875rem;">Position: ${raceState.position}/8 - Temps: ${formatTime(raceState.timeLeft)}</div>
-                            </div>
-                        </div>
-                        <button class="btn btn-orange flex flex-col items-center gap-3" style="padding: 24px;" onclick="setScreen('shop')">
-                            <i data-lucide="shopping-cart" style="width: 32px; height: 32px;"></i>
-                            <span class="text-lg font-bold">Boutique</span>
-                        </button>
-                        
-                        <button class="btn btn-purple flex flex-col items-center gap-3" style="padding: 24px;" onclick="setScreen('sponsors')">
-                            <i data-lucide="settings" style="width: 32px; height: 32px;"></i>
-                            <span class="text-lg font-bold">Sponsors</span>
-                        </button>
-                        
-                        <button class="btn btn-blue flex flex-col items-center gap-3" style="padding: 24px;" onclick="setScreen('history')">
-                            <i data-lucide="history" style="width: 32px; height: 32px;"></i>
-                            <span class="text-lg font-bold">Historique</span>
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-        
-        // Configuration de course
-        function renderRaceSetupScreen() {
-            return `
-                <div class="container" style="max-width: 800px;">
-                    ${renderRaceStatusBar()}
-                    
-                    <button class="btn btn-secondary mb-6" onclick="setScreen('menu')">
-                        ← Retour
-                    </button>
-                    
-                    <div class="card">
-                        <h2 class="text-2xl font-bold mb-6 text-center">Configuration de Course</h2>
-                        
-                        <div class="space-y-6">
-                            <div>
-                                <label class="text-lg font-bold mb-3" style="display: block;">Difficulté</label>
-                                <div class="grid grid-3 gap-3">
-                                    <button class="btn ${raceSettings.difficulty === 'debutant' ? 'btn-blue' : 'btn-secondary'}" 
-                                            onclick="setDifficulty('debutant')">
-                                        Débutant
-                                    </button>
-                                    <button class="btn ${raceSettings.difficulty === 'intermediaire' ? 'btn-blue' : 'btn-secondary'}" 
-                                            onclick="setDifficulty('intermediaire')">
-                                        Intermédiaire
-                                    </button>
-                                    <button class="btn ${raceSettings.difficulty === 'expert' ? 'btn-blue' : 'btn-secondary'}" 
-                                            onclick="setDifficulty('expert')">
-                                        Expert
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <label class="text-lg font-bold mb-3" style="display: block;">
-                                    Durée: ${raceSettings.duration < 3600 ? `${raceSettings.duration / 60} min` : `${raceSettings.duration / 3600} h`}
-                                </label>
-                                <input type="range" min="60" max="259200" step="60" value="${raceSettings.duration}" 
-                                       onchange="setDuration(this.value)" class="w-full">
-                                <div class="flex justify-between text-sm mt-2">
-                                    <span>1 min</span>
-                                    <span>72 h</span>
-                                </div>
-                            </div>
-                            
-                            <button class="btn btn-primary w-full text-xl font-bold" style="padding: 16px;" 
-                                    onclick="startRace()" 
-                                    ${raceState.isRacing && !championshipState.isActive ? 'disabled' : ''}>
-                                ${championshipState.isActive && championshipState.currentRace <= 20 
-                                    ? `Continuer Championnat (${championshipState.currentRace}/20)`
-                                    : raceState.isRacing 
-                                    ? 'Course en cours...' 
-                                    : 'Commencer la Course'}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-        
-        // Écran de course
-        function renderRaceScreen() {
-            const allRacers = [
-                { name: "Vous", progress: raceState.progress, isPlayer: true },
-                ...raceState.competitors
-            ].sort((a, b) => b.progress - a.progress);
+            // Ajouter à l'historique
+            gameData.raceHistory.push({
+                date: new Date().toLocaleDateString(),
+                position: position,
+                prize: prize,
+                xp: xp,
+                difficulty: raceState.difficulty,
+                duration: raceState.duration,
+                type: championshipState.isActive ? 'Championnat' : 'Course libre'
+            });
             
-            return `
-                <div class="container">
-                    <div class="flex justify-between items-center mb-6">
-                        <button class="btn btn-secondary" onclick="setScreen('menu')">
-                            ← Menu Principal
-                        </button>
-                        <h2 class="text-2xl font-bold text-white">
-                            ${championshipState.isActive ? `Championnat - Course ${championshipState.currentRace}/20` : 'Course en Direct'}
-                        </h2>
-                        <div style="width: 96px;"></div>
-                    </div>
-                    
-                    <div class="card mb-6">
-                        <div class="grid grid-4 gap-4 text-center mb-6">
-                            <div class="stat-card stat-blue">
-                                <h3 class="font-bold">Position</h3>
-                                <p class="text-2xl">${raceState.position}/8</p>
-                            </div>
-                            <div class="stat-card stat-green">
-                                <h3 class="font-bold">Temps Restant</h3>
-                                <p class="text-xl font-bold">${formatTime(raceState.timeLeft)}</p>
-                            </div>
-                            <div class="stat-card stat-yellow">
-                                <h3 class="font-bold">Météo</h3>
-                                <p class="font-bold flex items-center justify-center gap-2" style="text-transform: capitalize;">
-                                    <i data-lucide="wind" style="width: 20px; height: 20px;"></i>
-                                    ${raceState.weatherConditions}
-                                </p>
-                            </div>
-                            <div class="stat-card stat-purple">
-                                <h3 class="font-bold">Progrès</h3>
-                                <p class="text-xl font-bold">${Math.round(raceState.progress)}%</p>
-                            </div>
-                        </div>
-                        
-                        ${championshipState.isActive ? `
-                            <div class="stat-card stat-yellow text-center mb-6">
-                                <h4 class="font-bold">Points Championnat: ${championshipState.playerPoints}</h4>
-                            </div>
-                        ` : ''}
-                        
-                        <div class="mb-6">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="font-bold">Réglage des Voiles: ${raceState.sailTrim}%</span>
-                                <span class="font-bold" style="color: ${Math.abs(50 - raceState.sailTrim) < 10 ? '#10b981' : '#dc2626'};">
-                                    ${Math.abs(50 - raceState.sailTrim) < 10 ? 'OPTIMUM' : 'À AJUSTER'}
-                                </span>
-                            </div>
-                            <input type="range" min="0" max="100" value="${raceState.sailTrim}" 
-                                   onchange="setSailTrim(this.value)" class="w-full" 
-                                   ${raceState.isAutoPilot ? 'disabled' : ''}>
-                        </div>
-                        
-                        <div class="flex gap-4 mb-6">
-                            <button class="btn ${raceState.isAutoPilot ? 'btn-primary' : 'btn-secondary'}" 
-                                    onclick="toggleAutoPilot()">
-                                ${raceState.isAutoPilot ? `Pilote Auto: ${gameData.autopilot.name} ON` : 'Pilote Auto: OFF'}
-                            </button>
-                            
-                            ${raceState.isAutoPilot ? `
-                                <div class="stat-card stat-green" style="font-size: 0.875rem;">
-                                    Efficacité: ${Math.round(autopilotLevels.find(ap => ap.level === gameData.autopilot.level)?.efficiency * 100)}%
-                                </div>
-                            ` : ''}
-                        </div>
-                        
-                        <!-- Visualisation de la course -->
-                        <div style="background: #eff6ff; padding: 16px; border-radius: 8px; margin-bottom: 24px;">
-                            <h3 class="font-bold mb-3 text-center">Course en Direct</h3>
-                            <div class="race-track">
-                                <div class="finish-line"></div>
-                                <div style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); color: #dc2626; font-weight: bold; font-size: 12px;">
-                                    ARRIVÉE
-                                </div>
-                                
-                                ${allRacers.map((racer, index) => {
-                                    const leftPosition = Math.min((racer.progress / 100) * 90, 90);
-                                    const racerStyle = racer.isPlayer ? 'color: #1e40af; background: #bfdbfe; padding: 2px 4px; border-radius: 4px;' : 'color: #374151;';
-                                    const racerName = racer.isPlayer ? 'VOUS' : (championshipState.isActive ? racer.name : 'C' + (racer.id + 1));
-                                    return '<div class="racer ' + (racer.isPlayer ? 'animate-bounce' : '') + '" style="left: ' + leftPosition + '%; top: ' + (8 + index * 14) + 'px;"><div class="flex items-center gap-1"><div style="font-size: 1.5rem;">' + (racer.isPlayer ? '⛵' : '🚤') + '</div><span style="font-size: 12px; font-weight: bold; white-space: nowrap; ' + racerStyle + '">' + racerName + '</span></div></div>';
-                                }).join('')}
-                                
-                                <div class="progress-indicators">
-                                    <span>DÉPART</span>
-                                    <span>25%</span>
-                                    <span>50%</span>
-                                    <span>75%</span>
-                                    <span>100%</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div style="background: #f3f4f6; padding: 16px; border-radius: 8px;">
-                            <h3 class="font-bold mb-3">Classement</h3>
-                            <div class="space-y-2">
-                                ${allRacers.map((racer, index) => {
-                                    const positionClass = index === 0 ? 'position-1' : index === 1 ? 'position-2' : index === 2 ? 'position-3' : 'position-other';
-                                    const bgColor = racer.isPlayer ? '#bfdbfe' : 'white';
-                                    const fontWeight = racer.isPlayer ? 'font-weight: bold;' : '';
-                                    const racerEmoji = racer.isPlayer ? '⛵' : '🚤';
-                                    const racerName = racer.name || ('Concurrent ' + (racer.id + 1));
-                                    return '<div class="flex justify-between items-center p-2 rounded" style="background: ' + bgColor + '; ' + fontWeight + '"><span class="flex items-center gap-2"><span class="flex items-center justify-center font-bold text-sm ' + positionClass + '" style="width: 24px; height: 24px; border-radius: 50%;">' + (index + 1) + '</span><span style="font-size: 1.125rem;">' + racerEmoji + '</span>' + racerName + '</span><span class="font-bold">' + Math.round(racer.progress) + '%</span></div>';
-                                }).join('')}
-                            </div>
-                        </div>
-                    </div>
-                    
-                    ${!raceState.isRacing ? (
-                        championshipState.isActive && championshipState.currentRace <= 20 ? 
-                        '<div class="text-center"><div class="championship-active mb-4"><h3 class="font-bold text-lg" style="color: #92400e;">Championnat en cours: ' + (championshipState.championshipData?.name || '') + '</h3><p style="color: #a16207;">Course ' + championshipState.currentRace + '/20 - Points: ' + championshipState.playerPoints + ' - Durée: ' + (championshipState.raceDuration >= 3600 ? Math.floor(championshipState.raceDuration / 3600) + 'h' : Math.floor(championshipState.raceDuration / 60) + ' min') + '</p><button class="btn btn-yellow mt-4" onclick="startChampionshipRace(\'' + championshipState.level + '\', ' + JSON.stringify(championshipState.standings).replace(/"/g, '&quot;') + ', ' + championshipState.raceDuration + ')">Prochaine Course (' + (championshipState.raceDuration >= 3600 ? Math.floor(championshipState.raceDuration / 3600) + 'h' : Math.floor(championshipState.raceDuration / 60) + ' min') + ')</button></div><button class="btn btn-blue" style="padding: 12px 24px;" onclick="setScreen(\'menu\')">Retour au Menu</button></div>' :
-                        '<div class="text-center"><button class="btn btn-blue" style="padding: 12px 24px;" onclick="setScreen(\'menu\')">Retour au Menu</button></div>'
-                    ) : ''}
-                </div>
-            `;
+            // Sauvegarder et mettre à jour
+            saveGame();
+            updateDisplay();
+            
+            // Afficher les résultats
+            alert(`Course terminée !\\nPosition: ${position}/8\\nGains: ${formatMoney(prize)} + ${xp} XP`);
         }
         
-        // Écran des championnats
-        function renderChampionshipsScreen() {
-            return `
-                <div class="container">
-                    ${renderRaceStatusBar()}
-                    
-                    <button class="btn btn-secondary mb-6" onclick="setScreen('menu')">
-                        ← Retour
-                    </button>
-                    
-                    <div class="card">
-                        <h2 class="text-3xl font-bold mb-6 text-center" style="color: #92400e;">Championnats</h2>
-                        
-                        ${championshipState.isActive ? (
-                            '<div class="championship-active"><h3 class="font-bold text-lg mb-2" style="color: #92400e;">Championnat en cours: ' + (championshipState.championshipData?.name || '') + '</h3><div class="grid grid-3 gap-4 text-center"><div class="stat-card stat-yellow"><div class="font-bold">Course Actuelle</div><div class="text-2xl font-bold">' + championshipState.currentRace + '/20</div></div><div class="stat-card stat-yellow"><div class="font-bold">Vos Points</div><div class="text-2xl font-bold">' + championshipState.playerPoints + '</div></div><div class="stat-card stat-yellow"><div class="font-bold">Position Actuelle</div><div class="text-2xl font-bold">' + ([{ name: "Vous", totalPoints: championshipState.playerPoints, isPlayer: true }, ...championshipState.standings].sort((a, b) => b.totalPoints - a.totalPoints).findIndex(s => s.isPlayer) + 1) + '</div></div></div><div class="mt-4"><h4 class="font-bold mb-2">Classement Actuel:</h4><div class="space-y-1">' + 
-                            [{ name: "Vous", totalPoints: championshipState.playerPoints, isPlayer: true }, ...championshipState.standings]
-                                .sort((a, b) => b.totalPoints - a.totalPoints)
-                                .slice(0, 5)
-                                .map((pilot, index) => '<div class="flex justify-between p-2 rounded" style="background: ' + (pilot.isPlayer ? '#bfdbfe' : '#f3f4f6') + '; ' + (pilot.isPlayer ? 'font-weight: bold;' : '') + '"><span>' + (index + 1) + '. ' + pilot.name + '</span><span>' + pilot.totalPoints + ' pts</span></div>')
-                                .join('') + '</div></div></div>'
-                        ) : ''}
-                        
-                        <div class="space-y-4">
-                            ${availableChampionships.map(championship => {
-                                const isUnlocked = gameData.unlockedChampionships.includes(championship.id);
-                                const canUnlock = gameData.level >= championship.requirement && gameData.money >= championship.cost;
-                                
-                                return `
-                                    <div class="championship-item">
-                                        <div class="flex justify-between items-start mb-4">
-                                            <div>
-                                                <h3 class="text-xl font-bold">${championship.name}</h3>
-                                                <p style="color: #6b7280; text-transform: capitalize;">Niveau: ${championship.difficulty}</p>
-                                                <p style="color: #6b7280;">20 courses - Durée personnalisable</p>
-                                            </div>
-                                            <div style="text-align: right;">
-                                                <div style="font-size: 0.875rem; color: #6b7280;">Récompenses Podium:</div>
-                                                <div class="font-bold" style="color: #f59e0b;">🥇 ${formatNumber(championship.prize1)}€</div>
-                                                <div class="font-bold" style="color: #9ca3af;">🥈 ${formatNumber(championship.prize2)}€</div>
-                                                <div class="font-bold" style="color: #ea580c;">🥉 ${formatNumber(championship.prize3)}€</div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="flex justify-between items-center">
-                                            <div>
-                                                ${championship.cost > 0 ? `
-                                                    <p class="font-bold" style="color: #10b981;">Prix d'entrée: ${formatNumber(championship.cost)}€</p>
-                                                ` : ''}
-                                                <p style="color: #6b7280;">Niveau requis: ${championship.requirement}</p>
-                                            </div>
-                                            
-                                            <div>
-                                                ${!isUnlocked && championship.cost > 0 ? `
-                                                    <button class="btn ${canUnlock ? 'btn-yellow' : 'btn-secondary'}" 
-                                                            onclick="unlockChampionship('${championship.id}', ${championship.cost})"
-                                                            ${!canUnlock ? 'disabled' : ''}>
-                                                        ${gameData.level < championship.requirement ? 'Niveau Insuffisant' : 
-                                                          gameData.money < championship.cost ? 'Argent Insuffisant' : 'Déverrouiller'}
-                                                    </button>
-                                                ` : isUnlocked && !championshipState.isActive ? `
-                                                    <div style="text-align: right;">
-                                                        <div class="mb-2">
-                                                            <label style="display: block; font-size: 0.875rem; font-weight: bold; margin-bottom: 4px;">Durée par course:</label>
-                                                            <select id="duration-${championship.id}" style="border: 1px solid #d1d5db; border-radius: 4px; padding: 4px 8px; font-size: 0.875rem;">
-                                                                <option value="180">3 minutes</option>
-                                                                <option value="300" selected>5 minutes</option>
-                                                                <option value="600">10 minutes</option>
-                                                                <option value="900">15 minutes</option>
-                                                                <option value="1800">30 minutes</option>
-                                                                <option value="3600">1 heure</option>
-                                                                <option value="7200">2 heures</option>
-                                                                <option value="14400">4 heures</option>
-                                                                <option value="28800">8 heures</option>
-                                                                <option value="43200">12 heures</option>
-                                                                <option value="86400">24 heures</option>
-                                                                <option value="172800">48 heures</option>
-                                                            </select>
-                                                        </div>
-                                                        <button class="btn btn-primary" 
-                                                                onclick="startChampionshipWithDuration('${championship.id}')">
-                                                            Commencer le Championnat
-                                                        </button>
-                                                    </div>
-                                                ` : championshipState.isActive ? `
-                                                    <span class="btn btn-blue" style="cursor: default;">
-                                                        Championnat en Cours
-                                                    </span>
-                                                ` : `
-                                                    <span class="btn btn-primary" style="cursor: default;">
-                                                        Déverrouillé
-                                                    </span>
-                                                `}
-                                            </div>
-                                        </div>
-                                    </div>
-                                `;
-                            }).join('')}
-                        </div>
-                    </div>
-                </div>
-            `;
+        function finishChampionship() {
+            // Calculer la position finale du championnat
+            const finalPosition = 1; // Simplification - à calculer selon les points
+            let championshipPrize = 0;
+            
+            if (finalPosition === 1) championshipPrize = championshipState.championshipData.prize1;
+            else if (finalPosition === 2) championshipPrize = championshipState.championshipData.prize2;
+            else if (finalPosition === 3) championshipPrize = championshipState.championshipData.prize3;
+            
+            gameData.money += championshipPrize;
+            gameData.championships.push({
+                name: championshipState.championshipData.name,
+                date: new Date().toLocaleDateString(),
+                position: finalPosition,
+                points: championshipState.playerPoints,
+                prize: championshipPrize
+            });
+            
+            championshipState.isActive = false;
+            championshipState.currentRace = 0;
+            championshipState.playerPoints = 0;
+            
+            alert(`Championnat terminé !\\nPosition finale: ${finalPosition}\\nPrix: ${formatMoney(championshipPrize)}`);
         }
         
         // Boutique
-        function renderShopScreen() {
+        function updateShop() {
+            const boatUpgrades = document.getElementById('boat-upgrades');
             const upgrades = [
-                { stat: 'speed', name: 'Vitesse', cost: 1000, current: gameData.boat.speed },
-                { stat: 'handling', name: 'Maniabilité', cost: 1200, current: gameData.boat.handling },
-                { stat: 'endurance', name: 'Endurance', cost: 800, current: gameData.boat.endurance }
+                { stat: 'speed', name: 'Vitesse', current: gameData.boat.speed, cost: 1000 },
+                { stat: 'handling', name: 'Maniabilité', current: gameData.boat.handling, cost: 1200 },
+                { stat: 'endurance', name: 'Endurance', current: gameData.boat.endurance, cost: 800 }
             ];
             
-            return `
-                <div class="container" style="max-width: 800px;">
-                    ${renderRaceStatusBar()}
-                    
-                    <button class="btn btn-secondary mb-6" onclick="setScreen('menu')">
-                        ← Retour
-                    </button>
-                    
-                    <div class="card">
-                        <h2 class="text-2xl font-bold mb-6 text-center">Boutique</h2>
-                        <p class="text-center mb-6 text-lg">Argent disponible: ${formatNumber(gameData.money)}€</p>
-                        
-                        <div class="space-y-4">
-                            ${upgrades.map(upgrade => `
-                                <div style="background: #f3f4f6; padding: 16px; border-radius: 8px;" class="flex justify-between items-center">
-                                    <div>
-                                        <h3 class="font-bold">${upgrade.name}</h3>
-                                        <p>Niveau actuel: ${upgrade.current}</p>
-                                        <p class="font-bold" style="color: #10b981;">${upgrade.cost}€</p>
-                                    </div>
-                                    <button class="btn ${gameData.money >= upgrade.cost ? 'btn-primary' : 'btn-secondary'}" 
-                                            onclick="upgradeBoat('${upgrade.stat}', ${upgrade.cost})"
-                                            ${gameData.money < upgrade.cost ? 'disabled' : ''}>
-                                        Améliorer
-                                    </button>
-                                </div>
-                            `).join('')}
-                            
-                            <!-- Section Pilote Automatique -->
-                            <div class="upgrade-section">
-                                <h3 class="text-xl font-bold mb-4" style="color: #1e40af;">🤖 Pilote Automatique</h3>
-                                
-                                <div style="background: white; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
-                                    <div class="flex justify-between items-center">
-                                        <div>
-                                            <h4 class="font-bold">Niveau Actuel: ${gameData.autopilot.name}</h4>
-                                            <p style="font-size: 0.875rem; color: #6b7280;">
-                                                ${autopilotLevels.find(ap => ap.level === gameData.autopilot.level)?.description}
-                                            </p>
-                                            <p class="font-bold" style="color: #3b82f6;">
-                                                Efficacité: ${Math.round(autopilotLevels.find(ap => ap.level === gameData.autopilot.level)?.efficiency * 100)}%
-                                            </p>
-                                        </div>
-                                        <div style="font-size: 1.5rem;">
-                                            ${gameData.autopilot.level === 1 ? '🤖' : 
-                                              gameData.autopilot.level === 2 ? '🚀' :
-                                              gameData.autopilot.level === 3 ? '🎯' : '🧠'}
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                ${gameData.autopilot.level < 4 ? `
-                                    <div style="background: #f3f4f6; padding: 16px; border-radius: 8px;" class="flex justify-between items-center">
-                                        <div>
-                                            <h4 class="font-bold">Prochaine Amélioration: ${autopilotLevels[gameData.autopilot.level]?.name}</h4>
-                                            <p style="font-size: 0.875rem; color: #6b7280;">
-                                                ${autopilotLevels[gameData.autopilot.level]?.description}
-                                            </p>
-                                            <p class="font-bold" style="color: #10b981;">
-                                                ${formatNumber(autopilotLevels[gameData.autopilot.level]?.cost)}€
-                                            </p>
-                                            <p class="font-bold" style="color: #3b82f6;">
-                                                Efficacité: ${Math.round(autopilotLevels[gameData.autopilot.level]?.efficiency * 100)}%
-                                            </p>
-                                        </div>
-                                        <button class="btn ${gameData.money >= autopilotLevels[gameData.autopilot.level]?.cost ? 'btn-blue' : 'btn-secondary'}" 
-                                                onclick="upgradeAutopilot(${autopilotLevels[gameData.autopilot.level]?.cost}, ${gameData.autopilot.level + 1})"
-                                                ${gameData.money < autopilotLevels[gameData.autopilot.level]?.cost ? 'disabled' : ''}>
-                                            Améliorer
-                                        </button>
-                                    </div>
-                                ` : `
-                                    <div style="background: linear-gradient(to right, #f59e0b, #d97706); padding: 16px; border-radius: 8px; text-align: center;">
-                                        <h4 class="font-bold text-lg text-white">🏆 NIVEAU MAXIMUM ATTEINT !</h4>
-                                        <p style="color: #fef3c7;">Votre pilote automatique est au summum de la technologie</p>
-                                    </div>
-                                `}
-                            </div>
+            let html = '';
+            upgrades.forEach(upgrade => {
+                const canAfford = gameData.money >= upgrade.cost;
+                const btnClass = canAfford ? 'btn btn-green' : 'btn';
+                const disabled = canAfford ? '' : 'disabled';
+                
+                html += `
+                    <div class="upgrade-item">
+                        <div>
+                            <div class="font-bold">${upgrade.name}</div>
+                            <div>Niveau actuel: ${upgrade.current}</div>
+                            <div style="color: #10b981; font-weight: bold;">${formatMoney(upgrade.cost)}</div>
                         </div>
+                        <button class="${btnClass}" onclick="upgradeBoat('${upgrade.stat}', ${upgrade.cost})" ${disabled}>
+                            Améliorer
+                        </button>
                     </div>
+                `;
+            });
+            boatUpgrades.innerHTML = html;
+            
+            // Pilote automatique
+            const autopilotDiv = document.getElementById('autopilot-upgrades');
+            const currentLevel = gameData.autopilot.level;
+            const currentAutopilot = autopilotLevels.find(a => a.level === currentLevel);
+            
+            let autopilotHtml = `
+                <div class="upgrade-item">
+                    <div>
+                        <div class="font-bold">Niveau Actuel: ${currentAutopilot.name}</div>
+                        <div>Efficacité: ${Math.round(currentAutopilot.efficiency * 100)}%</div>
+                    </div>
+                    <div style="font-size: 24px;">🤖</div>
                 </div>
             `;
+            
+            if (currentLevel < 4) {
+                const nextLevel = autopilotLevels.find(a => a.level === currentLevel + 1);
+                const canAfford = gameData.money >= nextLevel.cost;
+                const btnClass = canAfford ? 'btn btn-green' : 'btn';
+                const disabled = canAfford ? '' : 'disabled';
+                
+                autopilotHtml += `
+                    <div class="upgrade-item">
+                        <div>
+                            <div class="font-bold">Prochaine amélioration: ${nextLevel.name}</div>
+                            <div>Efficacité: ${Math.round(nextLevel.efficiency * 100)}%</div>
+                            <div style="color: #10b981; font-weight: bold;">${formatMoney(nextLevel.cost)}</div>
+                        </div>
+                        <button class="${btnClass}" onclick="upgradeAutopilot(${nextLevel.cost}, ${nextLevel.level})" ${disabled}>
+                            Améliorer
+                        </button>
+                    </div>
+                `;
+            } else {
+                autopilotHtml += `
+                    <div class="upgrade-item" style="background: #fef3c7;">
+                        <div class="font-bold text-center">🏆 NIVEAU MAXIMUM ATTEINT !</div>
+                    </div>
+                `;
+            }
+            
+            autopilotDiv.innerHTML = autopilotHtml;
+        }
+        
+        function upgradeBoat(stat, cost) {
+            if (gameData.money >= cost) {
+                gameData.money -= cost;
+                gameData.boat[stat]++;
+                saveGame();
+                updateDisplay();
+            }
+        }
+        
+        function upgradeAutopilot(cost, newLevel) {
+            if (gameData.money >= cost) {
+                gameData.money -= cost;
+                const newAutopilot = autopilotLevels.find(a => a.level === newLevel);
+                gameData.autopilot = {
+                    level: newLevel,
+                    name: newAutopilot.name,
+                    efficiency: newAutopilot.efficiency
+                };
+                saveGame();
+                updateDisplay();
+            }
         }
         
         // Sponsors
-        function renderSponsorsScreen() {
-            return `
-                <div class="container" style="max-width: 800px;">
-                    ${renderRaceStatusBar()}
-                    
-                    <button class="btn btn-secondary mb-6" onclick="setScreen('menu')">
-                        ← Retour
-                    </button>
-                    
-                    <div class="card">
-                        <h2 class="text-2xl font-bold mb-6 text-center">Sponsors</h2>
-                        
-                        <div class="space-y-4">
-                            ${availableSponsors.map(sponsor => {
-                                const hasRequirement = gameData.level >= sponsor.requirement;
-                                const hasContract = gameData.sponsors.includes(sponsor.name);
-                                
-                                return `
-                                    <div style="background: #f3f4f6; padding: 16px; border-radius: 8px;">
-                                        <h3 class="font-bold text-lg">${sponsor.name}</h3>
-                                        <p>Bonus: ${formatNumber(sponsor.bonus)}€</p>
-                                        <p>Niveau requis: ${sponsor.requirement}</p>
-                                        <div class="mt-2">
-                                            ${hasContract ? `
-                                                <span class="btn btn-primary" style="cursor: default;">Contrat Actif</span>
-                                            ` : hasRequirement ? `
-                                                <button class="btn btn-blue" onclick="signSponsor(${JSON.stringify(sponsor).replace(/"/g, '&quot;')})">
-                                                    Signer le Contrat
-                                                </button>
-                                            ` : `
-                                                <span class="btn btn-secondary" style="cursor: default;">Niveau Insuffisant</span>
-                                            `}
-                                        </div>
-                                    </div>
-                                `;
-                            }).join('')}
+        function updateSponsors() {
+            const sponsorsDiv = document.getElementById('sponsors-list');
+            let html = '';
+            
+            sponsors.forEach(sponsor => {
+                const hasRequirement = gameData.level >= sponsor.requirement;
+                const hasContract = gameData.sponsors.includes(sponsor.name);
+                
+                let statusHtml = '';
+                if (hasContract) {
+                    statusHtml = '<span class="btn btn-green" style="cursor: default;">Contrat Actif</span>';
+                } else if (hasRequirement) {
+                    statusHtml = `<button class="btn btn-purple" onclick="signSponsor('${sponsor.name}', ${sponsor.bonus})">Signer le Contrat</button>`;
+                } else {
+                    statusHtml = '<span class="btn" style="cursor: default;">Niveau Insuffisant</span>';
+                }
+                
+                html += `
+                    <div class="sponsor-item">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div class="font-bold text-lg">${sponsor.name}</div>
+                                <div>Bonus: ${formatMoney(sponsor.bonus)}</div>
+                                <div>Niveau requis: ${sponsor.requirement}</div>
+                            </div>
+                            <div>${statusHtml}</div>
                         </div>
                     </div>
-                </div>
-            `;
+                `;
+            });
+            
+            sponsorsDiv.innerHTML = html;
+        }
+        
+        function signSponsor(name, bonus) {
+            gameData.money += bonus;
+            gameData.sponsors.push(name);
+            saveGame();
+            updateDisplay();
+            alert(`Contrat signé avec ${name} !\\nBonus reçu: ${formatMoney(bonus)}`);
+        }
+        
+        // Championnats
+        function updateChampionships() {
+            const champDiv = document.getElementById('championships-list');
+            
+            // Afficher championnat actif
+            const activeDiv = document.getElementById('active-championship');
+            if (championshipState.isActive) {
+                activeDiv.classList.remove('hidden');
+                document.getElementById('active-champ-name').textContent = championshipState.championshipData.name;
+                document.getElementById('champ-current-race').textContent = championshipState.currentRace + '/20';
+                document.getElementById('champ-your-points').textContent = championshipState.playerPoints;
+                document.getElementById('champ-your-position').textContent = '1er'; // Simplification
+            } else {
+                activeDiv.classList.add('hidden');
+            }
+            
+            // Liste des championnats
+            let html = '';
+            championships.forEach(champ => {
+                const isUnlocked = gameData.unlockedChampionships.includes(champ.id);
+                const canUnlock = gameData.level >= champ.requirement && gameData.money >= champ.cost;
+                
+                let actionHtml = '';
+                if (!isUnlocked && champ.cost > 0) {
+                    const btnClass = canUnlock ? 'btn btn-yellow' : 'btn';
+                    const disabled = canUnlock ? '' : 'disabled';
+                    actionHtml = `<button class="${btnClass}" onclick="unlockChampionship('${champ.id}', ${champ.cost})" ${disabled}>Déverrouiller (${formatMoney(champ.cost)})</button>`;
+                } else if (isUnlocked && !championshipState.isActive) {
+                    actionHtml = `
+                        <div>
+                            <select id="champ-duration-${champ.id}">
+                                <option value="5">5 minutes</option>
+                                <option value="15">15 minutes</option>
+                                <option value="60">1 heure</option>
+                                <option value="180">3 heures</option>
+                            </select>
+                            <button class="btn btn-green" onclick="startChampionship('${champ.id}')">Commencer</button>
+                        </div>
+                    `;
+                } else if (championshipState.isActive) {
+                    actionHtml = '<span class="btn" style="cursor: default;">Championnat en cours</span>';
+                } else {
+                    actionHtml = '<span class="btn btn-green" style="cursor: default;">Déverrouillé</span>';
+                }
+                
+                html += `
+                    <div class="upgrade-item">
+                        <div>
+                            <div class="font-bold text-lg">${champ.name}</div>
+                            <div>Difficulté: ${champ.difficulty}</div>
+                            <div>Niveau requis: ${champ.requirement}</div>
+                            <div style="color: #f59e0b; font-weight: bold;">
+                                🥇 ${formatMoney(champ.prize1)} | 🥈 ${formatMoney(champ.prize2)} | 🥉 ${formatMoney(champ.prize3)}
+                            </div>
+                        </div>
+                        <div>${actionHtml}</div>
+                    </div>
+                `;
+            });
+            
+            champDiv.innerHTML = html;
+        }
+        
+        function unlockChampionship(champId, cost) {
+            if (gameData.money >= cost) {
+                gameData.money -= cost;
+                gameData.unlockedChampionships.push(champId);
+                saveGame();
+                updateDisplay();
+                alert(`Championnat déverrouillé !`);
+            }
+        }
+        
+        function startChampionship(champId) {
+            const championship = championships.find(c => c.id === champId);
+            const durationSelect = document.getElementById('champ-duration-' + champId);
+            const duration = parseInt(durationSelect.value);
+            
+            championshipState.isActive = true;
+            championshipState.currentRace = 1;
+            championshipState.playerPoints = 0;
+            championshipState.championshipData = championship;
+            
+            raceState.difficulty = championship.difficulty;
+            raceState.duration = duration;
+            
+            saveGame();
+            alert(`Championnat ${championship.name} commencé !\\n20 courses vous attendent.`);
+            updateDisplay();
         }
         
         // Historique
-        function renderHistoryScreen() {
-            return `
-                <div class="container">
-                    ${renderRaceStatusBar()}
-                    
-                    <button class="btn btn-secondary mb-6" onclick="setScreen('menu')">
-                        ← Retour
-                    </button>
-                    
-                    <div class="card">
-                        <h2 class="text-2xl font-bold mb-6 text-center">Historique des Courses</h2>
-                        
-                        ${gameData.raceHistory.length === 0 ? `
-                            <p class="text-center" style="color: #6b7280;">Aucune course terminée</p>
-                        ` : `
-                            <div class="space-y-3">
-                                ${gameData.raceHistory.slice(-10).reverse().map((race, index) => `
-                                    <div style="background: #f3f4f6; padding: 16px; border-radius: 8px;" class="flex justify-between items-center">
-                                        <div>
-                                            <span class="font-bold">${race.date}</span>
-                                            <span style="margin-left: 16px; text-transform: capitalize;">Difficulté: ${race.difficulty}</span>
-                                            <div style="font-size: 0.875rem; color: #6b7280;">${race.type || 'Course libre'}</div>
-                                        </div>
-                                        <div style="text-align: right;">
-                                            <div class="font-bold" style="color: ${race.position === 1 ? '#f59e0b' : race.position <= 3 ? '#6b7280' : '#9ca3af'};">
-                                                ${race.position === 1 ? '🥇' : race.position === 2 ? '🥈' : race.position === 3 ? '🥉' : `${race.position}e`}
-                                            </div>
-                                            <div style="font-size: 0.875rem;">
-                                                <span style="color: #10b981;">+${race.prize}€</span>
-                                                <span style="margin-left: 8px; color: #3b82f6;">+${race.xp}XP</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        `}
-                        
-                        ${gameData.championships.length > 0 ? `
-                            <div class="mt-8">
-                                <h3 class="text-xl font-bold mb-4">Historique des Championnats</h3>
-                                <div class="space-y-3">
-                                    ${gameData.championships.map((championship, index) => `
-                                        <div style="background: #fef3c7; padding: 16px; border-radius: 8px;" class="flex justify-between items-center">
-                                            <div>
-                                                <span class="font-bold">${championship.name}</span>
-                                                <div style="font-size: 0.875rem; color: #6b7280;">${championship.date}</div>
-                                            </div>
-                                            <div style="text-align: right;">
-                                                <div class="font-bold" style="color: ${championship.position === 1 ? '#f59e0b' : championship.position <= 3 ? '#6b7280' : '#9ca3af'};">
-                                                    ${championship.position === 1 ? '🏆' : championship.position === 2 ? '🥈' : championship.position === 3 ? '🥉' : `${championship.position}e`}
-                                                </div>
-                                                <div style="font-size: 0.875rem;">
-                                                    <span style="color: #3b82f6;">${championship.points} pts</span>
-                                                    <span style="margin-left: 8px; color: #10b981;">+${championship.prize}€</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        ` : ''}
-                    </div>
-                </div>
-            `;
-        }
-        
-        // Fonctions de contrôle - correction des erreurs
-        function setScreen(screen) {
-            console.log('Changement écran vers:', screen);
-            currentScreen = screen;
-            renderScreen();
-        }
-        
-        function setDifficulty(difficulty) {
-            raceSettings.difficulty = difficulty;
-            renderScreen();
-        }
-        
-        function setDuration(duration) {
-            raceSettings.duration = parseInt(duration);
-            renderScreen();
-        }
-        
-        function setSailTrim(trim) {
-            if (!raceState.isAutoPilot) {
-                raceState.sailTrim = parseInt(trim);
-                updateRaceDisplay();
-            }
-        }
-        
-        function toggleAutoPilot() {
-            raceState.isAutoPilot = !raceState.isAutoPilot;
-            updateRaceDisplay();
-        }
-        
-        function startChampionshipWithDuration(championshipId) {
-            try {
-                const championship = availableChampionships.find(c => c.id === championshipId);
-                const durationSelect = document.getElementById('duration-' + championshipId);
-                if (durationSelect) {
-                    const duration = parseInt(durationSelect.value);
-                    startChampionship(championship, duration);
-                } else {
-                    console.error('Element duration select non trouvé:', championshipId);
-                }
-            } catch (error) {
-                console.error('Erreur startChampionshipWithDuration:', error);
-            }
-        }
-        
-        // Correction: fonction manquante pour l'écran de course
-        function updateRaceDisplay() {
-            if (currentScreen === 'race' && raceState.isRacing) {
-                renderScreen();
-            }
-        }
-        
-        // Fonction pour debugging
-        function debugGame() {
-            console.log('GameData:', gameData);
-            console.log('ChampionshipState:', championshipState);
-            console.log('RaceState:', raceState);
-            console.log('CurrentScreen:', currentScreen);
-        }
-        
-        // Rendu principal
-        function renderScreen() {
-            const app = document.getElementById('app');
-            if (!app) return;
+        function updateHistory() {
+            const raceHistoryDiv = document.getElementById('race-history');
+            const champHistoryDiv = document.getElementById('championship-history');
             
-            let content = '';
-            switch(currentScreen) {
-                case 'menu':
-                    content = renderMenuScreen();
-                    break;
-                case 'raceSetup':
-                    content = renderRaceSetupScreen();
-                    break;
-                case 'race':
-                    content = renderRaceScreen();
-                    break;
-                case 'championships':
-                    content = renderChampionshipsScreen();
-                    break;
-                case 'shop':
-                    content = renderShopScreen();
-                    break;
-                case 'sponsors':
-                    content = renderSponsorsScreen();
-                    break;
-                case 'history':
-                    content = renderHistoryScreen();
-                    break;
-                default:
-                    content = renderMenuScreen();
-            }
-            
-            app.innerHTML = content;
-            
-            // Initialiser les icônes Lucide
-            if (typeof lucide !== 'undefined' && lucide.createIcons) {
-                lucide.createIcons();
-            }
-        }
-        
-        // Initialisation au chargement de la page
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Initialisation du jeu...');
-            initGame();
-        });
-    </script>
-</body>
-</html>-secondary" onclick="setScreen('race')">
-                            Retour à la Course
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-        
-        // Menu principal
-        function renderMenuScreen() {
-            return `
-                <div class="container">
-                    <h1 class="text-4xl text-white text-center mb-8 flex justify-center items-center gap-3">
-                        <i data-lucide="anchor"></i>
-                        Championnat de Voile
-                    </h1>
-                    
-                    ${renderRaceStatusBar()}
-                    
-                    <div class="card">
-                        <div class="grid grid-3 gap-4 text-center">
-                            <div class="stat-card stat-green">
-                                <h3 class="font-bold">Argent</h3>
-                                <p class="text-2xl">${formatNumber(gameData.money)}€</p>
+            // Historique des courses
+            if (gameData.raceHistory.length === 0) {
+                raceHistoryDiv.innerHTML = '<p class="text-center" style="color: #6b7280;">Aucune course terminée</p>';
+            } else {
+                let html = '';
+                gameData.raceHistory.slice(-10).reverse().forEach(race => {
+                    const medal = race.position === 1 ? '🥇' : race.position === 2 ? '🥈' : race.position === 3 ? '🥉' : race.position + 'e';
+                    html += `
+                        <div style="display: flex; justify-content: space-between; align-items: center; 
+                                    background: #f9fafb; padding: 12px; margin: 8px 0; border-radius: 6px;">
+                            <div>
+                                <div class="font-bold">${race.date} - ${race.type}</div>
+                                <div>Difficulté: ${race.difficulty} | Durée: ${race.duration} min</div>
                             </div>
-                            <div class="stat-card stat-blue">
-                                <h3 class="font-bold">XP</h3>
-                                <p class="text-2xl">${gameData.xp}</p>
-                            </div>
-                            <div class="stat-card stat-purple">
-                                <h3 class="font-bold">Niveau</h3>
-                                <p class="text-2xl">${gameData.level}</p>
+                            <div style="text-align: right;">
+                                <div class="font-bold">${medal}</div>
+                                <div style="color: #10b981;">+${formatMoney(race.prize)}</div>
+                                <div style="color: #3b82f6;">+${race.xp} XP</div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="grid grid-5 gap-4">
-                        <button class="btn btn-primary flex flex-col items-center gap-3" style="padding: 24px;" onclick="setScreen('raceSetup')">
-                            <i data-lucide="play" style="width: 32px; height: 32px;"></i>
-                            <span class="text-lg font-bold">Course Libre</span>
-                        </button>
-                        
-                        <button class="btn btn-yellow flex flex-col items-center gap-3" style="padding: 24px;" onclick="setScreen('championships')">
-                            <i data-lucide="trophy" style="width: 32px; height: 32px;"></i>
-                            <span class="text-lg font-bold">Championnats</span>
-                        </button>
-                        
-                        <button class="btn btn
+                    `;
+                });
+                raceHistoryDiv.innerHTML = html;
+            }
+            
+            // Historique des championnats
+            if (gameData.championships.length === 0) {
+                champHistoryDiv.innerHTML = '<p class="text-center" style="color: #6b7280;">Aucun championnat terminé</p>';
+            } else {
+                let html = '';
+                gameData.championships.forEach(champ => {
+                    const medal = champ.position === 1 ? '🏆' : champ.position === 2 ? '🥈' : champ.position === 3 ? '🥉' : champ.position + 'e';
+                    html += `
+                        <div style="display: flex; justify-content: space-between; align-items: center; 
+                                    background: #fef3c7; padding: 12px; margin: 8px 0; border-radius: 6px;">
+                            <div>
+                                <div class="font-bold">${champ.name}</div>
+                                <div>${champ.date}</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div class="font-bold">${medal}</div>
+                                <div style="color: #3b82f6;">${champ.points} pts</div>
+                                <div style="color: #10b981;">+${formatMoney(champ.prize)}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                champHistoryDiv.innerHTML = html;
+            }
+        }
+        
+        // Fonctions utilitaires
+        function formatMoney(amount) {
+            return amount.toLocaleString() + '€';
+        }
+        
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return mins + ':' + secs.toString().padStart(2, '0');
+        }
+        
+        // Initialisation du jeu
+        function initGame() {
+            loadGame();
+            updateDisplay();
+            updateDuration();
+            
+            // Afficher le menu principal
+            showScreen('menu');
+        }
+        
+        // Démarrer le jeu quand la page est chargée
+        window.addEventListener('load', initGame);
+    </script>
+</body>
+</html>
